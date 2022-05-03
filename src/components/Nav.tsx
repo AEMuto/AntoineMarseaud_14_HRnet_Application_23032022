@@ -19,8 +19,8 @@ const StyledNav = styled.nav`
   flex-direction: column;
   height: 100vh;
   padding: 1rem;
-  margin-right: 1rem;
   background-color: #7A80DD;
+  width: 64px;
   img {
     background-color: #fff;
   }
