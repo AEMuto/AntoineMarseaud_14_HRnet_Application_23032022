@@ -40,7 +40,7 @@ export const GlobalStyles = createGlobalStyle`
   #root {
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }
   
   input {
