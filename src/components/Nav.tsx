@@ -17,7 +17,8 @@ export default Nav;
 const StyledNav = styled.nav`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   padding: 1rem;
   background-color: #7A80DD;
   width: 64px;
