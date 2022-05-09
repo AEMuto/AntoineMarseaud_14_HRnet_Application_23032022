@@ -1,17 +1,21 @@
-import { Link } from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import Logo from '../assets/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPeopleGroup, faPersonCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import {useEffect} from "react";
+import {colors} from "../theme/colors";
 
 const Nav = () => {
+  let location = useLocation();
+
   return (
     <StyledNav>
       <img src={Logo} alt="HRnet Home" className="logo" />
-      <StyledLink to="/">
+      <StyledLink to="/" color={location.pathname === '/' ? colors.primary : colors.grey}>
         <FontAwesomeIcon icon={faPeopleGroup} size={"lg"} />
       </StyledLink>
-      <StyledLink to="/create-employee">
+      <StyledLink to="/create-employee" color={location.pathname === '/create-employee' ? colors.primary : colors.grey}>
         <FontAwesomeIcon icon={faPersonCirclePlus} size={"lg"} />
       </StyledLink>
     </StyledNav>
@@ -23,30 +27,39 @@ export default Nav;
 const StyledNav = styled.nav`
   display: flex;
   flex-direction: column;
+  position: relative;
   min-height: 100vh;
   height: auto;
-  padding: 1rem;
-  background-color: #7a80dd;
   width: 64px;
+  
   .logo {
-    background-color: #fff;
-    border-radius: 5px;
+    width: 44px;
+    margin: 1rem auto;
   }
+  
+  &:after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    box-shadow: 3px 0 3px 0 rgba(0, 0, 0, 0.10);
+  }
+  
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(Link)<{color: string}>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fff;
   height: 44px;
   width: 44px;
-  margin: 1rem auto;
+  margin: .5rem auto;
   border-radius: 5px;
-  &:visited {
-    color: #2b2e4c;
-  }
+  color: ${(props) => props.color};
   &:hover {
-    color: #7a80dd;
+    color: ${colors.primary};
   }
 `

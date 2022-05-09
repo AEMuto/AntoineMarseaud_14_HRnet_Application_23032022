@@ -1,15 +1,12 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
-  :root {
-    color-scheme: normal!important;
-  }
-  
-  html {
+	
+	html {
     font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    //box-sizing: border-box;
+    box-sizing: border-box;
     font-size: 16px;
     font-weight: 400;
     scroll-behavior: smooth;
@@ -42,39 +39,9 @@ export const GlobalStyles = createGlobalStyle`
     display: flex;
     flex-direction: row;
   }
-  
-  input {
-    border: solid 1px;
+
+  #root > main > div > div.datatable__tools-top > div.datatable__search {
+	  height: 44px;
   }
   
-  button {
-    //border: none;
-    //background: none;
-    cursor: pointer;
-
-    &:disabled,
-    &:disabled:hover {
-      cursor: auto;
-    }
-  }
-
-  a, a:visited {
-    text-decoration: none;
-  }
-
-  ul {
-    list-style: none;
-  }
-
-  .error-message {
-    color: red;
-    height: 0.5rem;
-    margin: 0.5rem 0;
-  }
-
-  input.error {
-    color: red;
-    border-color: red;
-  }
-
 `;

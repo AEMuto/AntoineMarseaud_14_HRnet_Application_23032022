@@ -85,6 +85,7 @@ const SelectMenu = (props: DropdownProps) => {
                     onKeyDown={handleListKeyDown}>
                     {options.map((option, index) => (
                         <li
+                          key={`${option.label}-${index}`}
                             id={option.label}
                             role="option"
                             aria-selected={selectedIndex == index}
@@ -107,8 +108,7 @@ export default SelectMenu;
 const StyledDropdown = styled.div`
   margin-top: 0.5rem;
   position: relative;
-  width: 204px;
-  min-width: 144px;
+  width: 180px;
   height: 42px;
   
   div.container {

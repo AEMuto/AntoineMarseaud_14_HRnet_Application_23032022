@@ -33,7 +33,7 @@ const CreateEmployee = () => {
 
   return (
     <>
-      {/*<h1 style={{ textAlign: 'center' }}>Create Employee</h1>*/}
+      <h1 style={{ textAlign: 'center' }}>Create Employee</h1>
       <StyledForm onSubmit={handleSubmit}>
         <StyledLabel htmlFor="firstName">
           First Name
