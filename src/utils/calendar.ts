@@ -1,18 +1,43 @@
 import * as _ from 'lodash';
 
-export const THIS_YEAR: number = +new Date().getFullYear();
+export const THIS_YEAR: number = new Date().getFullYear();
 
-export const THIS_MONTH: number = +new Date().getMonth() + 1;
+export const THIS_MONTH: number = new Date().getMonth() + 1;
 
-export const WEEK_DAYS = {
-  Sunday: 'Sun',
-  Monday: 'Mon',
-  Tuesday: 'Tue',
-  Wednesday: 'Wed',
-  Thursday: 'Thu',
-  Friday: 'Fri',
-  Saturday: 'Sat',
-};
+export const WEEK_DAYS = [
+  {value: 1,label: 'Sun'},
+  {value: 2,label: 'Mon'},
+  {value: 3,label: 'Tue'},
+  {value: 4,label: 'Wed'},
+  {value: 5,label: 'Thu'},
+  {value: 6,label: 'Fri'},
+  {value: 7,label: 'Sat'},
+];
+
+export const MONTHS = [
+  { value: 1, label: 'January' },
+  { value: 2, label: 'February' },
+  { value: 3, label: 'March' },
+  { value: 4, label: 'April' },
+  { value: 5, label: 'May' },
+  { value: 6, label: 'June' },
+  { value: 7, label: 'July' },
+  { value: 8, label: 'August' },
+  { value: 9, label: 'September' },
+  { value: 10, label: 'October' },
+  { value: 11, label: 'November' },
+  { value: 12, label: 'December' },
+];
+
+export const getYearsRange = () => {
+  const startYear = THIS_YEAR - 72
+  const endYear = THIS_YEAR + 29
+  return _.range(startYear, endYear).map((year,index) => {
+    return {value: year, label: `${year}`}
+  })
+}
+
+export const YEARS = getYearsRange();
 
 export const CALENDAR_WEEKS = 6;
 
@@ -41,13 +66,22 @@ export const getMonthFirstDay = (month = THIS_MONTH, year = THIS_YEAR) => {
   return day + 1;
 };
 
+export const isDate = (date: Date) => {
+  const isDate = Object.prototype.toString.call(date) === '[object Date]';
+  const isValidDate = date && !Number.isNaN(date.valueOf());
+
+  return isDate && isValidDate;
+};
+
 export const isSameMonthAndYear = (date: Date, baseDate = new Date()) => {
+  if (!(isDate(date) && isDate(baseDate))) return false;
   const isSameMonth = date.getMonth() === baseDate.getMonth();
   const isSameYear = date.getFullYear() === baseDate.getFullYear();
   return isSameMonth && isSameYear;
 };
 
 export const isSameDay = (date: Date, baseDate = new Date()) => {
+  if (!(isDate(date) && isDate(baseDate))) return false;
   const isSameDate = date.getDate() === baseDate.getDate();
   return isSameDate && isSameMonthAndYear(date, baseDate);
 };
@@ -96,22 +130,17 @@ export default (month = THIS_MONTH, year = THIS_YEAR) => {
 
   const thisMonthDates = _.range(monthDays).map((n, index) => {
     const day = index + 1;
-    return [
-      _.padStart(`${month}`, 2, '0'),
-      _.padStart(`${day}`, 2, '0'),
-      year,
-    ];
+    return [_.padStart(`${month}`, 2, '0'), _.padStart(`${day}`, 2, '0'), year];
   });
 
-  const nextMonthDates = _.range(daysFromNextMonth).map((n,index) => {
-    const day = index + 1
+  const nextMonthDates = _.range(daysFromNextMonth).map((n, index) => {
+    const day = index + 1;
     return [
       _.padStart(`${nextMonth}`, 2, '0'),
       _.padStart(`${day}`, 2, '0'),
       nextYear,
-    ]
-  })
+    ];
+  });
 
-  return [...prevMonthDates,...thisMonthDates,...nextMonthDates]
-
+  return [...prevMonthDates, ...thisMonthDates, ...nextMonthDates];
 };

@@ -11,11 +11,12 @@ type DropdownProps = {
     options: Option[];
     selectedOption: number;
     setSelectedOption: Dispatch<SetStateAction<any>>;
+    width?: `${number}px`
 };
 
 const SelectMenu = (props: DropdownProps) => {
-    const { options, selectedOption, setSelectedOption } = props;
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const { options, selectedOption, setSelectedOption, width } = props;
+    const [selectedIndex, setSelectedIndex] = useState(selectedOption);
     const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
     const toggleOptions = () => {
@@ -66,7 +67,7 @@ const SelectMenu = (props: DropdownProps) => {
     };
 
     return (
-        <StyledDropdown>
+        <StyledDropdown width={width ? width : '180px'}>
             <div className={isOptionsOpen ? 'container expanded' : 'container'}>
                 <button
                     type="button"
@@ -105,10 +106,10 @@ const SelectMenu = (props: DropdownProps) => {
 
 export default SelectMenu;
 
-const StyledDropdown = styled.div`
+const StyledDropdown = styled.div<{width:`${number}px`}>`
   margin-top: 0.5rem;
   position: relative;
-  width: 180px;
+  width: ${(props) => props.width};
   height: 42px;
   
   div.container {
@@ -129,7 +130,7 @@ const StyledDropdown = styled.div`
   button {
     border: none;
     background-color: transparent;
-    width: 180px;
+      width: ${(props) => props.width};
     padding: 13.5px 12px;
     text-align: left;
     font-size: 0.85rem;
@@ -160,6 +161,8 @@ const StyledDropdown = styled.div`
     display: none;
     flex-direction: column;
     list-style: none;
+      max-height: 200px;
+      overflow-y: auto;
   }
 
   ul.show {
@@ -178,4 +181,4 @@ const StyledDropdown = styled.div`
     background: #eee;
     cursor: pointer;
   }
-`;
+`

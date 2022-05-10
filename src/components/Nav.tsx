@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Logo from '../assets/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPeopleGroup, faPersonCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import {useEffect} from "react";
 import {colors} from "../theme/colors";
 
 const Nav = () => {
