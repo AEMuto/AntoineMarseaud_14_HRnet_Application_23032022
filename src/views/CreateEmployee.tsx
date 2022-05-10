@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { colors } from '../theme/colors';
 import React, { FormEvent, useState } from 'react';
 import SelectMenu from '../components/SelectMenu';
+import Calendar from "../components/Calendar";
 
 const CreateEmployee = () => {
   const departments = [
@@ -34,6 +35,7 @@ const CreateEmployee = () => {
   return (
     <>
       <h1 style={{ textAlign: 'center' }}>Create Employee</h1>
+      <Calendar />
       <StyledForm onSubmit={handleSubmit}>
         <StyledLabel htmlFor="firstName">
           First Name

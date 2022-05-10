@@ -71,3 +71,47 @@ export const getNextMonth = (month: number, year: number) => {
   const nextMonthYear = month < 12 ? year : year + 1;
   return { month: nextMonth, year: nextMonthYear };
 };
+
+export default (month = THIS_MONTH, year = THIS_YEAR) => {
+  const monthDays = getMonthDays(month, year);
+  const monthFirstDay = getMonthFirstDay(month, year);
+
+  const daysFromPrevMonth = monthFirstDay - 1;
+  const daysFromNextMonth =
+    CALENDAR_WEEKS * 7 - (daysFromPrevMonth + monthDays);
+
+  const { month: prevMonth, year: prevYear } = getPreviousMonth(month, year);
+  const { month: nextMonth, year: nextYear } = getNextMonth(month, year);
+
+  const prevMonthDays = getMonthDays(prevMonth, prevYear);
+
+  const prevMonthDates = _.range(daysFromPrevMonth).map((n, index) => {
+    const day = index + 1 + (prevMonthDays - daysFromPrevMonth);
+    return [
+      _.padStart(`${prevMonth}`, 2, '0'),
+      _.padStart(`${day}`, 2, '0'),
+      prevYear,
+    ];
+  });
+
+  const thisMonthDates = _.range(monthDays).map((n, index) => {
+    const day = index + 1;
+    return [
+      _.padStart(`${month}`, 2, '0'),
+      _.padStart(`${day}`, 2, '0'),
+      year,
+    ];
+  });
+
+  const nextMonthDates = _.range(daysFromNextMonth).map((n,index) => {
+    const day = index + 1
+    return [
+      _.padStart(`${nextMonth}`, 2, '0'),
+      _.padStart(`${day}`, 2, '0'),
+      nextYear,
+    ]
+  })
+
+  return [...prevMonthDates,...thisMonthDates,...nextMonthDates]
+
+};
