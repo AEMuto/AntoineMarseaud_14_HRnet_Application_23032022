@@ -73,6 +73,7 @@ const CreateEmployee = () => {
             options={departments}
             selectedOption={departments[0].value}
             setSelectedOption={setDepartment}
+            margin="8px 0px 0px 0px"
           />
         </StyledLabel>
         <StyledLabel htmlFor="startDate">
