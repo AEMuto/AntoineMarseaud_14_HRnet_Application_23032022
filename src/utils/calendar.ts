@@ -114,13 +114,13 @@ export default (month = THIS_MONTH, year = THIS_YEAR) => {
     return [
       _.padStart(`${prevMonth}`, 2, '0'),
       _.padStart(`${day}`, 2, '0'),
-      prevYear,
+      `${prevYear}`,
     ];
   });
 
   const thisMonthDates = _.range(monthDays).map((n, index) => {
     const day = index + 1;
-    return [_.padStart(`${month}`, 2, '0'), _.padStart(`${day}`, 2, '0'), year];
+    return [_.padStart(`${month}`, 2, '0'), _.padStart(`${day}`, 2, '0'), `${year}`];
   });
 
   const nextMonthDates = _.range(daysFromNextMonth).map((n, index) => {
@@ -128,7 +128,7 @@ export default (month = THIS_MONTH, year = THIS_YEAR) => {
     return [
       _.padStart(`${nextMonth}`, 2, '0'),
       _.padStart(`${day}`, 2, '0'),
-      nextYear,
+      `${nextYear}`,
     ];
   });
 

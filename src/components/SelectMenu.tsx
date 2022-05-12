@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
+import {colors} from "../theme/colors";
 
 type Option = {
   value: number;
@@ -59,7 +60,6 @@ const SelectMenu = (props: DropdownProps) => {
   };
 
   const setSelectedThenCloseDropdown = (index: number) => {
-    console.log(index);
     setSelectedIndex(index);
     setSelectedOption(options[index].value);
     setIsOptionsOpen(false);
@@ -159,7 +159,7 @@ const StyledDropdown = styled.div<DropdownStyles>`
   div.container {
     display: flex;
     flex-direction: column;
-    border: 1px solid #bbb;
+    border: 1px solid ${colors.grey};
     background-color: #fff;
     border-radius: ${(props) => props.borderRadius};
     position: absolute;
