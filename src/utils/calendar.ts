@@ -5,13 +5,13 @@ export const THIS_YEAR: number = new Date().getFullYear();
 export const THIS_MONTH: number = new Date().getMonth() + 1;
 
 export const WEEK_DAYS = [
-  {value: 1,label: 'Sun'},
-  {value: 2,label: 'Mon'},
-  {value: 3,label: 'Tue'},
-  {value: 4,label: 'Wed'},
-  {value: 5,label: 'Thu'},
-  {value: 6,label: 'Fri'},
-  {value: 7,label: 'Sat'},
+  { value: 1, label: 'Sun' },
+  { value: 2, label: 'Mon' },
+  { value: 3, label: 'Tue' },
+  { value: 4, label: 'Wed' },
+  { value: 5, label: 'Thu' },
+  { value: 6, label: 'Fri' },
+  { value: 7, label: 'Sat' },
 ];
 
 export const MONTHS = [
@@ -51,7 +51,7 @@ export const getMonthDays = (month = THIS_MONTH, year = THIS_YEAR) => {
  * @param year
  */
 export const getMonthFirstDay = (month = THIS_MONTH, year = THIS_YEAR) => {
-  const date = new Date(`${_.padStart(`${month}`, 2, '0')}-01-${year}`);
+  const date = new Date(`${year}-${_.padStart(`${month}`, 2, '0')}-01`);
   const day = date.getDay();
   return day + 1;
 };
@@ -72,6 +72,7 @@ export const isSameMonthAndYear = (date: Date, baseDate = new Date()) => {
 
 export const isSameDay = (date: Date, baseDate = new Date()) => {
   if (!(isDate(date) && isDate(baseDate))) return false;
+
   const isSameDate = date.getDate() === baseDate.getDate();
   return isSameDate && isSameMonthAndYear(date, baseDate);
 };
@@ -112,25 +113,30 @@ export default (month = THIS_MONTH, year = THIS_YEAR) => {
   const prevMonthDates = _.range(daysFromPrevMonth).map((n, index) => {
     const day = index + 1 + (prevMonthDays - daysFromPrevMonth);
     return [
+      `${prevYear}`,
       _.padStart(`${prevMonth}`, 2, '0'),
       _.padStart(`${day}`, 2, '0'),
-      `${prevYear}`,
     ];
   });
 
   const thisMonthDates = _.range(monthDays).map((n, index) => {
     const day = index + 1;
-    return [_.padStart(`${month}`, 2, '0'), _.padStart(`${day}`, 2, '0'), `${year}`];
+    return [
+      `${year}`,
+      _.padStart(`${month}`, 2, '0'),
+      _.padStart(`${day}`, 2, '0'),
+    ];
   });
 
   const nextMonthDates = _.range(daysFromNextMonth).map((n, index) => {
     const day = index + 1;
     return [
+      `${nextYear}`,
       _.padStart(`${nextMonth}`, 2, '0'),
       _.padStart(`${day}`, 2, '0'),
-      `${nextYear}`,
     ];
   });
+
 
   return [...prevMonthDates, ...thisMonthDates, ...nextMonthDates];
 };

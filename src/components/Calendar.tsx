@@ -21,14 +21,14 @@ const Calendar = () => {
   const [calendarDisplay, setCalendarDisplay] = useState(
     _.chunk(calendar(currentMonth + 1, currentYear), 7),
   );
-  console.table(calendarDisplay);
+  //console.table(calendarDisplay);
 
   useEffect(() => {
     setCalendarDisplay(_.chunk(calendar(currentMonth + 1, currentYear), 7));
   }, [currentMonth, currentYear]);
 
   useEffect(() => {
-    console.table(calendarDisplay);
+    //console.table(calendarDisplay);
   }, [calendarDisplay]);
 
   const resetDate = () => {
@@ -110,7 +110,7 @@ const Calendar = () => {
                 {week.map((day, index) => {
                   const date = new Date(day.join('-'));
                   const isCurrentMonth =
-                    parseInt(day[0], 10) - 1 === currentMonth;
+                    (parseInt(day[1], 10) - 1) === currentMonth;
                   const isCurrentDay = isSameDay(date, initialDate);
                   const key = day.join('-');
                   if (isCurrentMonth) {
@@ -119,13 +119,13 @@ const Calendar = () => {
                         key={key}
                         data-date={key}
                         className={isCurrentDay ? 'active' : ''}>
-                        {day[1]}
+                        {day[2]}
                       </DayCell>
                     );
                   } else {
                     return (
                       <DayCell key={key} data-date={key} className="inactive">
-                        {day[1]}
+                        {day[2]}
                       </DayCell>
                     );
                   }
