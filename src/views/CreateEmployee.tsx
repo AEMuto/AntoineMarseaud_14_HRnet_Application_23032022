@@ -3,6 +3,7 @@ import { colors } from '../theme/colors';
 import React, { FormEvent, useState } from 'react';
 import SelectMenu from '../components/SelectMenu';
 import Calendar from "../components/Calendar";
+import DateTimePicker from "../components/DateTimePicker";
 
 const CreateEmployee = () => {
   const departments = [
@@ -35,7 +36,7 @@ const CreateEmployee = () => {
   return (
     <>
       <h1 style={{ textAlign: 'center' }}>Create Employee</h1>
-      <Calendar />
+      <DateTimePicker />
       <StyledForm onSubmit={handleSubmit}>
         <StyledLabel htmlFor="firstName">
           First Name
@@ -155,7 +156,7 @@ const StyledInput = styled.input`
   padding: 13.5px 12px;
   text-align: left;
   font-size: 0.85rem;
-  border: 1px solid #bbb;
+  border: 1px solid ${colors.grey};
   border-radius: 5px;
 `;
 

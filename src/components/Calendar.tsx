@@ -3,19 +3,22 @@ import * as _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCaretLeft,
-  faCaretRight,
   faHouse,
   faAngleLeft,
-  faAngleRight
+  faAngleRight,
 } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import SelectMenu from './SelectMenu';
 import { colors } from '../theme/colors';
 
-const Calendar = () => {
+type CalendarProps = {
+  selectedDate: Date
+}
+
+const Calendar = ({selectedDate}:CalendarProps) => {
   const initialDate = new Date();
-  const [currentDate, setCurrentDate] = useState(initialDate.getDate());
+  const [currentDate, setCurrentDate] = useState()
+  const [currentDay, setCurrentDay] = useState(initialDate.getDate());
   const [currentMonth, setCurrentMonth] = useState(initialDate.getMonth());
   const [currentYear, setCurrentYear] = useState(initialDate.getFullYear());
   const [calendarDisplay, setCalendarDisplay] = useState(
@@ -31,8 +34,12 @@ const Calendar = () => {
     //console.table(calendarDisplay);
   }, [calendarDisplay]);
 
+  const handleSelectDay = (e: React.MouseEvent<HTMLElement>) => {
+    console.log(e.currentTarget.getAttribute('data-date'));
+  };
+
   const resetDate = () => {
-    setCurrentDate(initialDate.getDay());
+    setCurrentDay(initialDate.getDay());
     setCurrentMonth(initialDate.getMonth());
     setCurrentYear(initialDate.getFullYear());
   };
@@ -65,7 +72,12 @@ const Calendar = () => {
           className="icon-arrow-left"
           onClick={handlePrevMonth}
         />
-        <FontAwesomeIcon icon={faHouse} cursor="pointer" onClick={resetDate} className="icon-home"/>
+        <FontAwesomeIcon
+          icon={faHouse}
+          cursor="pointer"
+          onClick={resetDate}
+          className="icon-home"
+        />
         <SelectMenu
           options={MONTHS}
           selectedOption={currentMonth}
@@ -110,7 +122,7 @@ const Calendar = () => {
                 {week.map((day, index) => {
                   const date = new Date(day.join('-'));
                   const isCurrentMonth =
-                    (parseInt(day[1], 10) - 1) === currentMonth;
+                    parseInt(day[1], 10) - 1 === currentMonth;
                   const isCurrentDay = isSameDay(date, initialDate);
                   const key = day.join('-');
                   if (isCurrentMonth) {
@@ -118,13 +130,18 @@ const Calendar = () => {
                       <DayCell
                         key={key}
                         data-date={key}
-                        className={isCurrentDay ? 'active' : ''}>
+                        className={isCurrentDay ? 'active' : ''}
+                        onClick={handleSelectDay}>
                         {day[2]}
                       </DayCell>
                     );
                   } else {
                     return (
-                      <DayCell key={key} data-date={key} className="inactive">
+                      <DayCell
+                        key={key}
+                        data-date={key}
+                        className="inactive"
+                        onClick={handleSelectDay}>
                         {day[2]}
                       </DayCell>
                     );
@@ -152,8 +169,10 @@ const CalendarHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  .icon-home:hover, .icon-arrow-left:hover,.icon-arrow-right:hover {
-    color:${colors.primary}
+  .icon-home:hover,
+  .icon-arrow-left:hover,
+  .icon-arrow-right:hover {
+    color: ${colors.primary};
   }
 `;
 
@@ -195,9 +214,10 @@ const DayCell = styled.td`
   border-radius: 50%;
   padding: 4px;
   &.inactive {
-    color: ${colors.grey}
+    color: ${colors.grey};
   }
-  &.active, &:hover {
+  &.active,
+  &:hover {
     background-color: ${colors.primary};
     color: ${colors.white};
     font-weight: 700;
