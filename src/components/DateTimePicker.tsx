@@ -3,67 +3,73 @@ import Calendar from './Calendar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { colors } from '../theme/colors';
-import React, { useRef, useState } from 'react';
-import * as _ from 'lodash';
+import React, { useEffect, useRef, useState } from 'react';
+import { dateInputParser } from '../utils/validation';
 
 const DateTimePicker = () => {
-  const dateInput = React.useRef<HTMLInputElement | null>(null);
-  const initialDate = new Date();
-  const initialDateString = [
-    _.padStart(`${initialDate.getMonth() + 1}`, 2, '0'),
-    _.padStart(`${initialDate.getDate()}`, 2, '0'),
-    _.padStart(`${initialDate.getFullYear()}`, 4, '0'),
-  ].join('/');
+  const dateInput = useRef<HTMLInputElement | null>(null);
 
-  const [date, setDate] = useState('mm/dd/yyyy');
+  const [selectedDate, setSelectedDate] = useState('mm/dd/yyyy');
   const [calendarVisible, setCalendarVisible] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
 
   const handleBlur = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    console.log(
-      'Date input unfocused, new date value is : ',
-      e.currentTarget.value,
-    );
-    setDate(e.currentTarget.value);
-
+    // Parse input value
+    const dateInput = dateInputParser(e.currentTarget.value);
+    setSelectedDate(dateInput);
+    e.currentTarget.value = dateInput;
   };
 
   const handleFocus = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    console.log('Date input focused : Reset default value');
-    e.currentTarget.value = '';
-
+    // Reset default value if present
+    if (e.currentTarget.value === 'mm/dd/yyyy') e.currentTarget.value = '';
+    // Otherwise, do nothing
+    else return;
   };
 
-  const handleCalendarIconClick = (e:React.MouseEvent) => {
-    e.preventDefault()
-    if (!dateInput.current) return
+  const handleCalendarIconClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!dateInput.current) return;
     // Focus on the date input
     dateInput.current?.focus();
     // Toggle Calendar
-    setCalendarVisible(!calendarVisible)
-
+    setCalendarVisible(!calendarVisible);
   };
 
+  useEffect(() => {
+    if (!dateInput.current) return;
+    dateInput.current.value = selectedDate;
+  }, [selectedDate]);
+
   return (
-    <>
-      <DateInputContainer>
+    <DateInputContainer>
+      <DateInputWrapper>
         <DateInput
           type="text"
-          defaultValue={date}
+          defaultValue={selectedDate}
           onBlur={handleBlur}
           onFocus={handleFocus}
           ref={dateInput}
         />
         <FontAwesomeIcon icon={faCalendar} onClick={handleCalendarIconClick} />
-      </DateInputContainer>
-      {calendarVisible && <Calendar />}
-    </>
+      </DateInputWrapper>
+      {calendarVisible && (
+        <Calendar
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          setCalendarVisible={setCalendarVisible}
+        />
+      )}
+    </DateInputContainer>
   );
 };
 
 export default DateTimePicker;
 
 const DateInputContainer = styled.div`
+  position: relative;
+`;
+
+const DateInputWrapper = styled.div`
   display: inline-flex;
   align-items: center;
   margin-top: 0.5rem;

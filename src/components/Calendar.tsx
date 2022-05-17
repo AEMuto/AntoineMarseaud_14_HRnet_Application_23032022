@@ -1,4 +1,9 @@
-import calendar, { isSameDay, MONTHS, WEEK_DAYS } from '../utils/calendar';
+import calendar, {
+  getDateISO,
+  isSameDay,
+  MONTHS,
+  WEEK_DAYS,
+} from '../utils/calendar';
 import * as _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,53 +17,66 @@ import SelectMenu from './SelectMenu';
 import { colors } from '../theme/colors';
 
 type CalendarProps = {
-  selectedDate: Date
-}
+  selectedDate: string;
+  setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
+  setCalendarVisible: React.Dispatch<React.SetStateAction<boolean>>
+};
 
-const Calendar = ({selectedDate}:CalendarProps) => {
-  const initialDate = new Date();
-  const [currentDate, setCurrentDate] = useState()
-  const [currentDay, setCurrentDay] = useState(initialDate.getDate());
-  const [currentMonth, setCurrentMonth] = useState(initialDate.getMonth());
-  const [currentYear, setCurrentYear] = useState(initialDate.getFullYear());
+const Calendar = ({ selectedDate, setSelectedDate, setCalendarVisible }: CalendarProps) => {
+  const initialDate =
+    selectedDate === 'mm/dd/yyyy' ? new Date() : getDateISO(selectedDate);
+
+
+  const [selectedMonth, setSelectedMonth] = useState(initialDate.getMonth());
+  const [selectedYear, setSelectedYear] = useState(initialDate.getFullYear());
+
   const [calendarDisplay, setCalendarDisplay] = useState(
-    _.chunk(calendar(currentMonth + 1, currentYear), 7),
+    _.chunk(calendar(selectedMonth + 1, selectedYear), 7),
   );
-  //console.table(calendarDisplay);
+
 
   useEffect(() => {
-    setCalendarDisplay(_.chunk(calendar(currentMonth + 1, currentYear), 7));
-  }, [currentMonth, currentYear]);
+    setCalendarDisplay(_.chunk(calendar(selectedMonth + 1, selectedYear), 7));
+  }, [selectedMonth, selectedYear]);
 
-  useEffect(() => {
-    //console.table(calendarDisplay);
-  }, [calendarDisplay]);
 
   const handleSelectDay = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e.currentTarget.getAttribute('data-date'));
+    const dateElements = e.currentTarget.getAttribute('data-date')?.split('-');
+    if (!dateElements) return;
+
+    const year = dateElements[0];
+    const month = dateElements[1];
+    const day = dateElements[2];
+
+
+    setSelectedMonth(parseInt(month, 10) - 1);
+    setSelectedYear(parseInt(year, 10));
+
+    setSelectedDate(`${month}/${day}/${year}`);
+    setCalendarVisible(false);
   };
 
   const resetDate = () => {
-    setCurrentDay(initialDate.getDay());
-    setCurrentMonth(initialDate.getMonth());
-    setCurrentYear(initialDate.getFullYear());
+
+    setSelectedMonth(initialDate.getMonth());
+    setSelectedYear(initialDate.getFullYear());
   };
 
   const handleNextMonth = () => {
-    if (currentMonth === 11) {
-      setCurrentMonth(() => 0);
-      setCurrentYear(currentYear + 1);
+    if (selectedMonth === 11) {
+      setSelectedMonth(() => 0);
+      setSelectedYear(selectedYear + 1);
     } else {
-      setCurrentMonth(currentMonth + 1);
+      setSelectedMonth(selectedMonth + 1);
     }
   };
 
   const handlePrevMonth = () => {
-    if (currentMonth === 0) {
-      setCurrentMonth(() => 11);
-      setCurrentYear(currentYear - 1);
+    if (selectedMonth === 0) {
+      setSelectedMonth(() => 11);
+      setSelectedYear(selectedYear - 1);
     } else {
-      setCurrentMonth(currentMonth - 1);
+      setSelectedMonth(selectedMonth - 1);
     }
   };
 
@@ -80,8 +98,8 @@ const Calendar = ({selectedDate}:CalendarProps) => {
         />
         <SelectMenu
           options={MONTHS}
-          selectedOption={currentMonth}
-          setSelectedOption={setCurrentMonth}
+          selectedOption={selectedMonth}
+          setSelectedOption={setSelectedMonth}
           width="106px"
           height="29px"
           margin="5px"
@@ -91,9 +109,9 @@ const Calendar = ({selectedDate}:CalendarProps) => {
           borderRadius="0px"
         />
         <YearInput
-          value={currentYear}
+          value={selectedYear}
           type="number"
-          onChange={(e) => setCurrentYear(parseInt(e.target.value, 10))}
+          onChange={(e) => setSelectedYear(parseInt(e.target.value, 10))}
         />
         <FontAwesomeIcon
           icon={faAngleRight}
@@ -119,18 +137,20 @@ const Calendar = ({selectedDate}:CalendarProps) => {
           {calendarDisplay.map((week, index) => {
             return (
               <WeekRow key={`week-${index}`}>
-                {week.map((day, index) => {
+                {week.map((day) => {
                   const date = new Date(day.join('-'));
                   const isCurrentMonth =
-                    parseInt(day[1], 10) - 1 === currentMonth;
-                  const isCurrentDay = isSameDay(date, initialDate);
+                    parseInt(day[1], 10) - 1 === selectedMonth;
+                  // const isCurrentDay = isSameDay(date, initialDate);
+                  const dateISO = getDateISO(selectedDate);
+                  const isSelectedDate = isSameDay(date, dateISO);
                   const key = day.join('-');
                   if (isCurrentMonth) {
                     return (
                       <DayCell
                         key={key}
                         data-date={key}
-                        className={isCurrentDay ? 'active' : ''}
+                        className={isSelectedDate ? 'selected' : ''}
                         onClick={handleSelectDay}>
                         {day[2]}
                       </DayCell>
@@ -159,9 +179,15 @@ const Calendar = ({selectedDate}:CalendarProps) => {
 export default Calendar;
 
 const CalendarContainer = styled.div`
+  margin-top: 0.5rem;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   position: absolute;
+  box-shadow: 0 6px 6px 4px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  background-color: ${colors.white};
+  z-index: 2;
 `;
 
 const CalendarHeader = styled.div`
@@ -216,7 +242,11 @@ const DayCell = styled.td`
   &.inactive {
     color: ${colors.grey};
   }
-  &.active,
+  &.current {
+    color: ${colors.secondary};
+    font-weight: 700;
+  }
+  &.selected,
   &:hover {
     background-color: ${colors.primary};
     color: ${colors.white};

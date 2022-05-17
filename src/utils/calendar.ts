@@ -77,12 +77,12 @@ export const isSameDay = (date: Date, baseDate = new Date()) => {
   return isSameDate && isSameMonthAndYear(date, baseDate);
 };
 
-export const getDateISO = (date = new Date()) => {
-  return [
-    _.padStart(`${date.getMonth() + 1}`, 2, '0'), // Month
-    _.padStart(`${date.getDate()}`, 2, '0'), // Day
-    date.getFullYear(), // Year
-  ].join('-');
+export const getDateISO = (dateString:string) => {
+  const dateElements = dateString.split('/')
+  const month = dateElements[0]
+  const day = dateElements[1]
+  const year = dateElements[2]
+  return new Date(`${year}-${month}-${day}`)
 };
 
 export const getPreviousMonth = (month: number, year: number) => {

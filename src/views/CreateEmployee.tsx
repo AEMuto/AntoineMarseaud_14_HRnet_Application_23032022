@@ -36,7 +36,6 @@ const CreateEmployee = () => {
   return (
     <>
       <h1 style={{ textAlign: 'center' }}>Create Employee</h1>
-      <DateTimePicker />
       <StyledForm onSubmit={handleSubmit}>
         <StyledLabel htmlFor="firstName">
           First Name
@@ -60,13 +59,7 @@ const CreateEmployee = () => {
         </StyledLabel>
         <StyledLabel htmlFor="dateOfBirth">
           Date of Birth
-          <StyledInput
-            type="date"
-            name="dateOfBirth"
-            id="dateOfBirth"
-            value={birthDay}
-            onChange={(e) => setBirthDay(e.target.value)}
-          />
+          <DateTimePicker />
         </StyledLabel>
         <StyledLabel htmlFor="department">
           Department
@@ -79,13 +72,7 @@ const CreateEmployee = () => {
         </StyledLabel>
         <StyledLabel htmlFor="startDate">
           Start Date
-          <StyledInput
-            type="date"
-            name="startDate"
-            id="startDate"
-            value={startDay}
-            onChange={(e) => setStartDay(e.target.value)}
-          />
+          <DateTimePicker />
         </StyledLabel>
         {/* Address *****/}
         <StyledLabel htmlFor="street">
