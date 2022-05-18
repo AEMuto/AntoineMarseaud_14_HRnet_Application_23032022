@@ -4,7 +4,9 @@ import React, {FormEvent, useEffect, useState} from 'react';
 import SelectMenu from '../components/SelectMenu';
 import DateTimePicker from "../components/DateTimePicker";
 import {nanoid} from "@reduxjs/toolkit";
+import {validateEmployee} from "../utils/validation";
 
+/* Constants */
 export const DEPARTMENTS = [
   { value: 0, label: 'Sales' },
   { value: 1, label: 'Marketing' },
@@ -15,34 +17,61 @@ export const DEPARTMENTS = [
 
 export const DEFAULT_DATE = 'mm/dd/yyyy';
 
+/* Types */
+export type employeeFields =
+  | 'firstName'
+  | 'lastName'
+  | 'dateOfBirth'
+  | 'startDate'
+  | 'street'
+  | 'city'
+  | 'stateName'
+  | 'zipCode'
+  | 'department';
+
+export type employeeForm = {
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  startDate: string;
+  street: string;
+  city: string;
+  stateName: string;
+  zipCode: string;
+  department?: string;
+};
+
+export type errorsType = {
+  [key in employeeFields]?: string;
+};
+
 const CreateEmployee = () => {
   const uuid = nanoid()
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [birthDay, setBirthDay] = useState(DEFAULT_DATE);
-  const [startDay, setStartDay] = useState(DEFAULT_DATE);
+  const [dateOfBirth, setDateOfBirth] = useState(DEFAULT_DATE);
+  const [startDate, setStartDate] = useState(DEFAULT_DATE);
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');
   const [stateName, setStateName] = useState('');
   const [zipCode, setZipCode] = useState('');
   const [departmentIndex, setDepartmentIndex] = useState(0);
 
+  const [formErrors, setFormErrors] = useState<errorsType>({})
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e.currentTarget.elements)
     // Validate Inputs. Make a validation function.
     // Switch through each input and validate them
     // thanks to regex. Return an error object where each keys
     // represent an input, and the pair value contains the error message.
     // If and only if there is no mistakes, we can pass the inputs value
     // to...
+    const data = {firstName,lastName,dateOfBirth,startDate,street,city,stateName,zipCode}
+    const {isValid, errors} = validateEmployee(data)
+    console.log(isValid, errors)
   };
 
-  useEffect(() => {
-    console.log('Birthday : ', birthDay)
-    console.log('Start Day : ', startDay)
-    console.log('Dep : ', DEPARTMENTS[departmentIndex].label)
-  },[birthDay,startDay,departmentIndex])
 
   return (
     <>
@@ -70,7 +99,7 @@ const CreateEmployee = () => {
         </StyledLabel>
         <StyledLabel htmlFor="dateOfBirth">
           Date of Birth
-          <DateTimePicker id="dateOfBirth" dateValue={birthDay} dateSetter={setBirthDay} defaultDate={DEFAULT_DATE}/>
+          <DateTimePicker id="dateOfBirth" dateValue={dateOfBirth} dateSetter={setDateOfBirth} defaultDate={DEFAULT_DATE}/>
         </StyledLabel>
         <StyledLabel htmlFor="department">
           Department
@@ -83,7 +112,7 @@ const CreateEmployee = () => {
         </StyledLabel>
         <StyledLabel htmlFor="startDate">
           Start Date
-          <DateTimePicker id="startDate" dateValue={startDay} dateSetter={setStartDay} defaultDate={DEFAULT_DATE}/>
+          <DateTimePicker id="startDate" dateValue={startDate} dateSetter={setStartDate} defaultDate={DEFAULT_DATE}/>
         </StyledLabel>
         {/* Address *****/}
         <StyledLabel htmlFor="street">

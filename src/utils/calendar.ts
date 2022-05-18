@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
+import {DATE_PATTERN} from "./regexPatterns";
 
-export const DATE_PATTERN = new RegExp('\\d{1,2}\\/\\d{1,2}\\/\\d{1,4}')
+
 
 export const CURRENT_DATE = new Date()
 
