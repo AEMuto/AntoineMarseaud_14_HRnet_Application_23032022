@@ -4,24 +4,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { colors } from '../theme/colors';
 import React, { useEffect, useRef, useState } from 'react';
-import { dateInputParser } from '../utils/validation';
+import { dateInputParser } from '../utils/calendar';
 
-const DateTimePicker = () => {
+type DateTimePickerProps = {
+  id: string;
+  defaultDate: string;
+  dateValue: string;
+  dateSetter: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const DateTimePicker = ({id, defaultDate, dateSetter, dateValue}:DateTimePickerProps) => {
   const dateInput = useRef<HTMLInputElement | null>(null);
 
-  const [selectedDate, setSelectedDate] = useState('mm/dd/yyyy');
+
   const [calendarVisible, setCalendarVisible] = useState(false);
 
   const handleBlur = (e: React.SyntheticEvent<HTMLInputElement>) => {
     // Parse input value
     const dateInput = dateInputParser(e.currentTarget.value);
-    setSelectedDate(dateInput);
+    dateSetter(dateInput);
     e.currentTarget.value = dateInput;
   };
 
   const handleFocus = (e: React.SyntheticEvent<HTMLInputElement>) => {
     // Reset default value if present
-    if (e.currentTarget.value === 'mm/dd/yyyy') e.currentTarget.value = '';
+    if (e.currentTarget.value === defaultDate) e.currentTarget.value = '';
     // Otherwise, do nothing
     else return;
   };
@@ -37,25 +44,26 @@ const DateTimePicker = () => {
 
   useEffect(() => {
     if (!dateInput.current) return;
-    dateInput.current.value = selectedDate;
-  }, [selectedDate]);
+    dateInput.current.value = dateValue;
+  }, [dateValue]);
 
   return (
     <DateInputContainer>
       <DateInputWrapper>
         <DateInput
           type="text"
-          defaultValue={selectedDate}
+          defaultValue={defaultDate}
           onBlur={handleBlur}
           onFocus={handleFocus}
           ref={dateInput}
+          id={id}
         />
         <FontAwesomeIcon icon={faCalendar} onClick={handleCalendarIconClick} />
       </DateInputWrapper>
       {calendarVisible && (
         <Calendar
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
+          selectedDate={dateValue}
+          setSelectedDate={dateSetter}
           setCalendarVisible={setCalendarVisible}
         />
       )}

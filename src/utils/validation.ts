@@ -1,41 +1,74 @@
-import * as _ from "lodash";
-import {getMonthDays} from "./calendar";
+import { DATE_PATTERN } from './calendar';
+import { DEFAULT_DATE } from '../views/CreateEmployee';
+import { USA_STATES } from './usaStates';
 
-const currentDate = new Date();
+export const NAME_PATTERN = new RegExp('/\\p{Alphabetic}{2,}/', 'gu');
+export const ZIPCODE_PATTERN = new RegExp('/(^\d{4}?\d$|^\d{4}?\d-\d{4}$)/','gm')
 
-const currentDateString = [
-	_.padStart(`${currentDate.getMonth() + 1}`, 2, '0'),
-	_.padStart(`${currentDate.getDate()}`, 2, '0'),
-	_.padStart(`${currentDate.getFullYear()}`, 4, '0'),
-].join('/');
+type employeeFields =
+  | 'firstName'
+  | 'lastName'
+  | 'dateOfBirth'
+  | 'startDate'
+  | 'street'
+  | 'city'
+  | 'state'
+  | 'zipCode'
+  | 'department';
 
-const datePattern = new RegExp('\\d{1,2}\\/\\d{1,2}\\/\\d{1,4}')
+type employeeForm = {
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  startDate: string;
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  department: string;
+};
 
-/**
- * If the input parameter doesn't match the 'mm/dd/yyyy' pattern this function
- * return the current date. Else it will parse the values for the day and month
- * and make sure they are valid. If not valid the values will be cast as the nearest
- * possible value. Ex: day = 99 ? day = 31
- * @param input
- */
-export const dateInputParser = (input:string) => {
-	if (!input.match(datePattern)) return currentDateString
-	const dateElements = input.split('/')
-	let month = parseInt(dateElements[0],10)
-	let day = parseInt(dateElements[1], 10)
-	let year = parseInt(dateElements[2], 10)
+type errorsType = {
+  [key in employeeFields]?: string;
+};
 
-	if (month > 12) month = 12
-	if (month < 1) month = 1
-	if (day < 1) day = 1
+export const validateEmployee = (data: employeeForm) => {
+  const {
+    firstName,
+    lastName,
+    dateOfBirth,
+    startDate,
+    street,
+    city,
+    state,
+    zipCode,
+  } = data;
 
-	// Return the correct maximum day depending on the month & year
-	if (day > getMonthDays(month, year)) day = getMonthDays(month, year)
+  const errors: errorsType = {};
+	// Check if the field is empty
+  if (!firstName) errors.firstName = 'Field should not be empty';
+  if (!lastName) errors.lastName = 'Field should not be empty';
+  if (!dateOfBirth || dateOfBirth === DEFAULT_DATE)
+    errors.dateOfBirth = 'Field should not be empty';
+  if (!startDate || startDate === DEFAULT_DATE)
+    errors.startDate = 'Field should not be empty';
+  if (!street) errors.street = 'Field should not be empty';
+  if (!city) errors.city = 'Field should not be empty';
+  if (!state) errors.state = 'Field should not be empty';
+  if (!zipCode) errors.zipCode = 'Field should not be empty';
 
-	return [
-		_.padStart(`${month}`, 2, '0'),
-		_.padStart(`${day}`, 2, '0'),
-		_.padStart(`${year}`, 4, '0'),
-	].join('/');
+	// Check if the field input is valid
+  if (!firstName?.match(NAME_PATTERN))
+    errors.firstName = 'Employee name should contains only alphabetic letters';
+  if (!lastName?.match(NAME_PATTERN))
+    errors.lastName = 'Employee name should contains only alphabetic letters';
+  if (!dateOfBirth?.match(DATE_PATTERN))
+    errors.dateOfBirth = 'Invalid date format';
+  if (!startDate?.match(DATE_PATTERN)) errors.startDate = 'Invalid date format';
+  if (!city?.match(NAME_PATTERN))
+    errors.city = 'City should contains only alphabetic letters';
+  if (!USA_STATES.includes(state))
+    errors.state = "Must be a valid USA's state";
+	if (!zipCode.match(ZIPCODE_PATTERN)) errors.zipCode = 'Invalid zip code';
 
-}
+};

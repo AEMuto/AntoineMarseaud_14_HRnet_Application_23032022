@@ -1,30 +1,35 @@
 import styled from 'styled-components';
 import { colors } from '../theme/colors';
-import React, { FormEvent, useState } from 'react';
+import React, {FormEvent, useEffect, useState} from 'react';
 import SelectMenu from '../components/SelectMenu';
-import Calendar from "../components/Calendar";
 import DateTimePicker from "../components/DateTimePicker";
+import {nanoid} from "@reduxjs/toolkit";
+
+export const DEPARTMENTS = [
+  { value: 0, label: 'Sales' },
+  { value: 1, label: 'Marketing' },
+  { value: 2, label: 'Engineering' },
+  { value: 3, label: 'Human Ressources' },
+  { value: 4, label: 'Legal' },
+];
+
+export const DEFAULT_DATE = 'mm/dd/yyyy';
 
 const CreateEmployee = () => {
-  const departments = [
-    { value: 0, label: 'Sales' },
-    { value: 1, label: 'Marketing' },
-    { value: 2, label: 'Engineering' },
-    { value: 3, label: 'Human Ressources' },
-    { value: 4, label: 'Legal' },
-  ];
+  const uuid = nanoid()
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [birthDay, setBirthDay] = useState('');
-  const [startDay, setStartDay] = useState('');
+  const [birthDay, setBirthDay] = useState(DEFAULT_DATE);
+  const [startDay, setStartDay] = useState(DEFAULT_DATE);
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');
   const [stateName, setStateName] = useState('');
-  const [zipCode, setZipCode] = useState(0);
-  const [department, setDepartment] = useState(departments[0].value);
+  const [zipCode, setZipCode] = useState('');
+  const [departmentIndex, setDepartmentIndex] = useState(0);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(e.currentTarget.elements)
     // Validate Inputs. Make a validation function.
     // Switch through each input and validate them
     // thanks to regex. Return an error object where each keys
@@ -32,6 +37,12 @@ const CreateEmployee = () => {
     // If and only if there is no mistakes, we can pass the inputs value
     // to...
   };
+
+  useEffect(() => {
+    console.log('Birthday : ', birthDay)
+    console.log('Start Day : ', startDay)
+    console.log('Dep : ', DEPARTMENTS[departmentIndex].label)
+  },[birthDay,startDay,departmentIndex])
 
   return (
     <>
@@ -59,20 +70,20 @@ const CreateEmployee = () => {
         </StyledLabel>
         <StyledLabel htmlFor="dateOfBirth">
           Date of Birth
-          <DateTimePicker />
+          <DateTimePicker id="dateOfBirth" dateValue={birthDay} dateSetter={setBirthDay} defaultDate={DEFAULT_DATE}/>
         </StyledLabel>
         <StyledLabel htmlFor="department">
           Department
           <SelectMenu
-            options={departments}
-            selectedOption={departments[0].value}
-            setSelectedOption={setDepartment}
+            options={DEPARTMENTS}
+            selectedOption={DEPARTMENTS[0].value}
+            setSelectedOption={setDepartmentIndex}
             margin="8px 0px 0px 0px"
           />
         </StyledLabel>
         <StyledLabel htmlFor="startDate">
           Start Date
-          <DateTimePicker />
+          <DateTimePicker id="startDate" dateValue={startDay} dateSetter={setStartDay} defaultDate={DEFAULT_DATE}/>
         </StyledLabel>
         {/* Address *****/}
         <StyledLabel htmlFor="street">
@@ -108,11 +119,11 @@ const CreateEmployee = () => {
         <StyledLabel htmlFor="zipCode">
           Zip Code
           <StyledInput
-            type="number"
+            type="text"
             name="zipCode"
             id="zipCode"
             value={zipCode}
-            onChange={(e) => setZipCode(+e.target.value)}
+            onChange={(e) => setZipCode(e.target.value)}
           />
         </StyledLabel>
         <SubmitButton type="submit">Save</SubmitButton>

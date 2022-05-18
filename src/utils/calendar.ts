@@ -1,8 +1,19 @@
 import * as _ from 'lodash';
 
+export const DATE_PATTERN = new RegExp('\\d{1,2}\\/\\d{1,2}\\/\\d{1,4}')
+
+export const CURRENT_DATE = new Date()
+
 export const THIS_YEAR: number = new Date().getFullYear();
 
 export const THIS_MONTH: number = new Date().getMonth() + 1;
+
+export const CURRENT_DATE_STRING = [
+  _.padStart(`${CURRENT_DATE.getMonth() + 1}`, 2, '0'),
+  _.padStart(`${CURRENT_DATE.getDate()}`, 2, '0'),
+  _.padStart(`${CURRENT_DATE.getFullYear()}`, 4, '0'),
+].join('/');
+
 
 export const WEEK_DAYS = [
   { value: 1, label: 'Sun' },
@@ -30,6 +41,36 @@ export const MONTHS = [
 ];
 
 export const CALENDAR_WEEKS = 6;
+
+
+/**
+ * If the input parameter doesn't match the 'mm/dd/yyyy' pattern this function
+ * return the current date. Else it will parse the values for the day and month
+ * and make sure they are valid. If not valid the values will be cast as the nearest
+ * possible value. Ex: day = 99 ? day = 31
+ * @param input
+ */
+export const dateInputParser = (input:string) => {
+  if (!input.match(DATE_PATTERN)) return CURRENT_DATE_STRING
+  const dateElements = input.split('/')
+  let month = parseInt(dateElements[0],10)
+  let day = parseInt(dateElements[1], 10)
+  let year = parseInt(dateElements[2], 10)
+
+  if (month > 12) month = 12
+  if (month < 1) month = 1
+  if (day < 1) day = 1
+
+  // Return the correct maximum day depending on the month & year
+  if (day > getMonthDays(month, year)) day = getMonthDays(month, year)
+
+  return [
+    _.padStart(`${month}`, 2, '0'),
+    _.padStart(`${day}`, 2, '0'),
+    _.padStart(`${year}`, 4, '0'),
+  ].join('/');
+
+}
 
 /**
  * Return the correct numbers of day in a month. If the month is february
