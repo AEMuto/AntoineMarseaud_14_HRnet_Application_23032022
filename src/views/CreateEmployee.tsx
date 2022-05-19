@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { colors } from '../theme/colors';
-import React, {FormEvent, useEffect, useState} from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import SelectMenu from '../components/SelectMenu';
-import DateTimePicker from "../components/DateTimePicker";
-import {nanoid} from "@reduxjs/toolkit";
-import {validateEmployee} from "../utils/validation";
+import DateTimePicker from '../components/DateTimePicker';
+import { nanoid } from '@reduxjs/toolkit';
+import { validateEmployee } from '../utils/validation';
 
 /* Constants */
 export const DEPARTMENTS = [
@@ -46,7 +46,7 @@ export type errorsType = {
 };
 
 const CreateEmployee = () => {
-  const uuid = nanoid()
+  const uuid = nanoid();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState(DEFAULT_DATE);
@@ -57,7 +57,7 @@ const CreateEmployee = () => {
   const [zipCode, setZipCode] = useState('');
   const [departmentIndex, setDepartmentIndex] = useState(0);
 
-  const [formErrors, setFormErrors] = useState<errorsType>({})
+  const [formErrors, setFormErrors] = useState<errorsType>({});
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,11 +67,34 @@ const CreateEmployee = () => {
     // represent an input, and the pair value contains the error message.
     // If and only if there is no mistakes, we can pass the inputs value
     // to...
-    const data = {firstName,lastName,dateOfBirth,startDate,street,city,stateName,zipCode}
-    const {isValid, errors} = validateEmployee(data)
-    console.log(isValid, errors)
+    const data = {
+      firstName,
+      lastName,
+      dateOfBirth,
+      startDate,
+      street,
+      city,
+      stateName,
+      zipCode,
+    };
+    const { isValid, errors } = validateEmployee(data);
+    if (errors) setFormErrors(errors);
+    // Validation
+
   };
 
+  const resetError: React.FocusEventHandler<HTMLInputElement> = (e) => {
+    // Reset date default value if present
+    if (e.currentTarget.value === DEFAULT_DATE) e.currentTarget.value = '';
+    // Delete the error attached to the input
+    const inputKey = e.currentTarget.id as employeeFields
+    console.log(formErrors[inputKey])
+    if (formErrors[inputKey]) {
+      const tempFormErrors = formErrors
+      tempFormErrors[inputKey] = undefined
+      setFormErrors({...tempFormErrors})
+    }
+  }
 
   return (
     <>
@@ -84,8 +107,13 @@ const CreateEmployee = () => {
             name="firstName"
             id="firstName"
             value={firstName}
+            className={formErrors.firstName ? 'error' : ''}
+            onFocus={resetError}
             onChange={(e) => setFirstName(e.target.value)}
           />
+          <ErrorMessage>
+            {formErrors.firstName ? formErrors.firstName : ''}
+          </ErrorMessage>
         </StyledLabel>
         <StyledLabel htmlFor="lastName">
           Last Name
@@ -94,12 +122,27 @@ const CreateEmployee = () => {
             name="lastName"
             id="lastName"
             value={lastName}
+            className={formErrors.lastName ? 'error' : ''}
+            onFocus={resetError}
             onChange={(e) => setLastName(e.target.value)}
           />
+          <ErrorMessage>
+            {formErrors.lastName ? formErrors.lastName : ''}
+          </ErrorMessage>
         </StyledLabel>
         <StyledLabel htmlFor="dateOfBirth">
           Date of Birth
-          <DateTimePicker id="dateOfBirth" dateValue={dateOfBirth} dateSetter={setDateOfBirth} defaultDate={DEFAULT_DATE}/>
+          <DateTimePicker
+            id="dateOfBirth"
+            dateValue={dateOfBirth}
+            dateSetter={setDateOfBirth}
+            defaultDate={DEFAULT_DATE}
+            error={!!formErrors.dateOfBirth}
+            focusHandler={resetError}
+          />
+          <ErrorMessage>
+            {formErrors.dateOfBirth ? formErrors.dateOfBirth : ''}
+          </ErrorMessage>
         </StyledLabel>
         <StyledLabel htmlFor="department">
           Department
@@ -112,7 +155,17 @@ const CreateEmployee = () => {
         </StyledLabel>
         <StyledLabel htmlFor="startDate">
           Start Date
-          <DateTimePicker id="startDate" dateValue={startDate} dateSetter={setStartDate} defaultDate={DEFAULT_DATE}/>
+          <DateTimePicker
+            id="startDate"
+            dateValue={startDate}
+            dateSetter={setStartDate}
+            defaultDate={DEFAULT_DATE}
+            error={!!formErrors.startDate}
+            focusHandler={resetError}
+          />
+          <ErrorMessage>
+            {formErrors.startDate ? formErrors.startDate : ''}
+          </ErrorMessage>
         </StyledLabel>
         {/* Address *****/}
         <StyledLabel htmlFor="street">
@@ -122,8 +175,13 @@ const CreateEmployee = () => {
             name="street"
             id="street"
             value={street}
+            className={formErrors.street ? 'error' : ''}
+            onFocus={resetError}
             onChange={(e) => setStreet(e.target.value)}
           />
+          <ErrorMessage>
+            {formErrors.street ? formErrors.street : ''}
+          </ErrorMessage>
         </StyledLabel>
         <StyledLabel htmlFor="city">
           City
@@ -132,18 +190,26 @@ const CreateEmployee = () => {
             name="city"
             id="city"
             value={city}
+            className={formErrors.city ? 'error' : ''}
+            onFocus={resetError}
             onChange={(e) => setCity(e.target.value)}
           />
+          <ErrorMessage>{formErrors.city ? formErrors.city : ''}</ErrorMessage>
         </StyledLabel>
-        <StyledLabel htmlFor="state">
+        <StyledLabel htmlFor="stateName">
           State
           <StyledInput
             type="text"
-            name="state"
-            id="state"
+            name="stateName"
+            id="stateName"
             value={stateName}
+            className={formErrors.stateName ? 'error' : ''}
+            onFocus={resetError}
             onChange={(e) => setStateName(e.target.value)}
           />
+          <ErrorMessage>
+            {formErrors.stateName ? formErrors.stateName : ''}
+          </ErrorMessage>
         </StyledLabel>
         <StyledLabel htmlFor="zipCode">
           Zip Code
@@ -152,8 +218,13 @@ const CreateEmployee = () => {
             name="zipCode"
             id="zipCode"
             value={zipCode}
+            className={formErrors.zipCode ? 'error' : ''}
+            onFocus={resetError}
             onChange={(e) => setZipCode(e.target.value)}
           />
+          <ErrorMessage>
+            {formErrors.zipCode ? formErrors.zipCode : ''}
+          </ErrorMessage>
         </StyledLabel>
         <SubmitButton type="submit">Save</SubmitButton>
       </StyledForm>
@@ -185,6 +256,16 @@ const StyledInput = styled.input`
   font-size: 0.85rem;
   border: 1px solid ${colors.grey};
   border-radius: 5px;
+  &.error {
+    border: 1px solid ${colors.danger};
+  }
+`;
+
+const ErrorMessage = styled.p`
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  color: ${colors.danger};
+  min-height: 14px;
 `;
 
 const SubmitButton = styled.button`

@@ -11,11 +11,12 @@ type DateTimePickerProps = {
   defaultDate: string;
   dateValue: string;
   dateSetter: React.Dispatch<React.SetStateAction<string>>;
+  error: boolean;
+  focusHandler: React.FocusEventHandler<HTMLInputElement>
 }
 
-const DateTimePicker = ({id, defaultDate, dateSetter, dateValue}:DateTimePickerProps) => {
+const DateTimePicker = ({id, defaultDate, dateSetter, dateValue, error, focusHandler}:DateTimePickerProps) => {
   const dateInput = useRef<HTMLInputElement | null>(null);
-
 
   const [calendarVisible, setCalendarVisible] = useState(false);
 
@@ -24,13 +25,6 @@ const DateTimePicker = ({id, defaultDate, dateSetter, dateValue}:DateTimePickerP
     const dateInput = dateInputParser(e.currentTarget.value);
     dateSetter(dateInput);
     e.currentTarget.value = dateInput;
-  };
-
-  const handleFocus = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    // Reset default value if present
-    if (e.currentTarget.value === defaultDate) e.currentTarget.value = '';
-    // Otherwise, do nothing
-    else return;
   };
 
   const handleCalendarIconClick = (e: React.MouseEvent) => {
@@ -49,12 +43,12 @@ const DateTimePicker = ({id, defaultDate, dateSetter, dateValue}:DateTimePickerP
 
   return (
     <DateInputContainer>
-      <DateInputWrapper>
+      <DateInputWrapper className={error ? 'error' : ''}>
         <DateInput
           type="text"
           defaultValue={defaultDate}
           onBlur={handleBlur}
-          onFocus={handleFocus}
+          onFocus={focusHandler}
           ref={dateInput}
           id={id}
         />
@@ -91,6 +85,9 @@ const DateInputWrapper = styled.div`
   &:focus-within {
     outline-offset: 0;
     outline: rgb(16, 16, 16) auto 1px;
+  }
+  &.error {
+    border: 1px solid ${colors.danger};
   }
 `;
 

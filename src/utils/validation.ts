@@ -32,7 +32,6 @@ export const validateEmployee = (data: employeeForm) => {
   if (!zipCode) errors.zipCode = 'Field should not be empty';
 
   // Check if the field input is valid
-  console.log(!firstName?.match(NAME_PATTERN))
   if (!firstName?.match(NAME_PATTERN) && !errors.firstName)
     errors.firstName = 'Employee name should contains only alphabetic letters';
   if (!lastName?.match(NAME_PATTERN) && !errors.lastName)
