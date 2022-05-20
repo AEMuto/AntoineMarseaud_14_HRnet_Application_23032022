@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 import { colors } from '../theme/colors';
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import SelectMenu from '../components/SelectMenu';
 import DateTimePicker from '../components/DateTimePicker';
 import { nanoid } from '@reduxjs/toolkit';
 import { validateEmployee } from '../utils/validation';
+import Modal from '../components/Modal';
+import { useAppDispatch } from '../hooks';
+import { USA_STATES_DICT } from '../utils/usaStates';
+import { UsaStates } from '../types/usaStates';
+import { addEmployee } from '../store/appSlice';
 
 /* Constants */
 export const DEPARTMENTS = [
@@ -46,7 +51,8 @@ export type errorsType = {
 };
 
 const CreateEmployee = () => {
-  const uuid = nanoid();
+  const dispatch = useAppDispatch();
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState(DEFAULT_DATE);
@@ -58,15 +64,10 @@ const CreateEmployee = () => {
   const [departmentIndex, setDepartmentIndex] = useState(0);
 
   const [formErrors, setFormErrors] = useState<errorsType>({});
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Validate Inputs. Make a validation function.
-    // Switch through each input and validate them
-    // thanks to regex. Return an error object where each keys
-    // represent an input, and the pair value contains the error message.
-    // If and only if there is no mistakes, we can pass the inputs value
-    // to...
     const data = {
       firstName,
       lastName,
@@ -74,30 +75,57 @@ const CreateEmployee = () => {
       startDate,
       street,
       city,
-      stateName,
+      state: stateName,
       zipCode,
+      department: DEPARTMENTS[departmentIndex].label,
+      id: nanoid(),
     };
     const { isValid, errors } = validateEmployee(data);
+    // Setting error state
     if (errors) setFormErrors(errors);
     // Validation
+    if (isValid) {
+      // Changing the state name to an abbreviation
+      data.state.length > 2
+        ? (data.state = USA_STATES_DICT[data.state as UsaStates])
+        : '';
+      // Reset the fields
+      setFirstName('');
+      setLastName('');
+      setDateOfBirth(DEFAULT_DATE);
+      setStartDate(DEFAULT_DATE);
+      setStreet('');
+      setCity('');
+      setStateName('');
+      setZipCode('');
+      setDepartmentIndex(0);
+      // Show the success modal
+      setModalVisible(true);
 
+      // Dispatch the new employee entry to the store
+      dispatch(addEmployee({ ...data }));
+    }
   };
 
   const resetError: React.FocusEventHandler<HTMLInputElement> = (e) => {
-    // Reset date default value if present
-    if (e.currentTarget.value === DEFAULT_DATE) e.currentTarget.value = '';
-    // Delete the error attached to the input
-    const inputKey = e.currentTarget.id as employeeFields
-    console.log(formErrors[inputKey])
+    // Casting the id value of the input (id value should equal a value in the employeeFields type)
+    const inputKey = e.currentTarget.id as employeeFields;
+    // Access the error if there is one
     if (formErrors[inputKey]) {
-      const tempFormErrors = formErrors
-      tempFormErrors[inputKey] = undefined
-      setFormErrors({...tempFormErrors})
+      // Reset the input
+      e.currentTarget.value = '';
+      const tempFormErrors = formErrors;
+      // Unset the error attached to the input
+      tempFormErrors[inputKey] = undefined;
+      setFormErrors({ ...tempFormErrors });
     }
-  }
+  };
 
   return (
     <>
+      <Modal visible={modalVisible} setVisible={setModalVisible}>
+        <p>Employee Created!</p>
+      </Modal>
       <h1 style={{ textAlign: 'center' }}>Create Employee</h1>
       <StyledForm onSubmit={handleSubmit}>
         <StyledLabel htmlFor="firstName">

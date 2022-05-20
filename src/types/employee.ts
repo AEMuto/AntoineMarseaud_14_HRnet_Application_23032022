@@ -1,5 +1,5 @@
-export type employee = {
-  uuid: string;
+export type Employee = {
+  id: string;
   firstName: string;
   lastName: string;
   dateOfBirth: string;

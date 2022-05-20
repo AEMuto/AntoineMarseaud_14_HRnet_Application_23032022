@@ -7,6 +7,8 @@ import NotFound from './views/NotFound';
 import Nav from './components/Nav';
 import { GlobalStyles } from './theme/GlobalStyle';
 import styled from 'styled-components';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 const App = () => {
   return (
@@ -26,7 +28,9 @@ const App = () => {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
 );
 

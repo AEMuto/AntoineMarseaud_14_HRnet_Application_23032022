@@ -1,3 +1,3 @@
-import { employee } from './employee';
+import { Employee } from './employee';
 
-export type employeesData = employee[];
+export type employeesData = Employee[];

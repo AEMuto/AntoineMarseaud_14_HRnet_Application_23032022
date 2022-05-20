@@ -1,12 +1,14 @@
-import {
-  DEFAULT_DATE,
-  employeeForm,
-  errorsType,
-} from '../views/CreateEmployee';
+import { DEFAULT_DATE, errorsType } from '../views/CreateEmployee';
 import { USA_STATES } from './usaStates';
-import {DATE_PATTERN, HAVE_SPECIAL, NAME_PATTERN, ZIPCODE_PATTERN} from './regexPatterns';
+import {
+  DATE_PATTERN,
+  HAVE_SPECIAL,
+  NAME_PATTERN,
+  ZIPCODE_PATTERN,
+} from './regexPatterns';
+import { Employee } from '../types/employee';
 
-export const validateEmployee = (data: employeeForm) => {
+export const validateEmployee = (data: Employee) => {
   const {
     firstName,
     lastName,
@@ -14,7 +16,7 @@ export const validateEmployee = (data: employeeForm) => {
     startDate,
     street,
     city,
-    stateName,
+    state,
     zipCode,
   } = data;
 
@@ -28,7 +30,7 @@ export const validateEmployee = (data: employeeForm) => {
     errors.startDate = 'Field should not be empty';
   if (!street) errors.street = 'Field should not be empty';
   if (!city) errors.city = 'Field should not be empty';
-  if (!stateName) errors.stateName = 'Field should not be empty';
+  if (!state) errors.stateName = 'Field should not be empty';
   if (!zipCode) errors.zipCode = 'Field should not be empty';
 
   // Check if the field input is valid
@@ -38,12 +40,16 @@ export const validateEmployee = (data: employeeForm) => {
     errors.lastName = 'Employee name should contains only alphabetic letters';
   if (!dateOfBirth?.match(DATE_PATTERN) && !errors.dateOfBirth)
     errors.dateOfBirth = 'Invalid date format';
-  if (!startDate?.match(DATE_PATTERN) && !errors.startDate) errors.startDate = 'Invalid date format';
-  if (street.match(HAVE_SPECIAL) && !errors.street) errors.street = 'Special characters are not accepted';
+  if (!startDate?.match(DATE_PATTERN) && !errors.startDate)
+    errors.startDate = 'Invalid date format';
+  if (street.match(HAVE_SPECIAL) && !errors.street)
+    errors.street = 'Special characters are not accepted';
   if (!city?.match(NAME_PATTERN) && !errors.city)
     errors.city = 'City should contains only alphabetic letters';
-  if (!USA_STATES.includes(stateName) && !errors.stateName) errors.stateName = "Must be a valid USA's state";
-  if (!zipCode.match(ZIPCODE_PATTERN) && !errors.zipCode) errors.zipCode = 'Invalid zip code';
+  if (!USA_STATES.includes(state) && !errors.stateName)
+    errors.stateName = "Must be a valid USA's state";
+  if (!zipCode.match(ZIPCODE_PATTERN) && !errors.zipCode)
+    errors.zipCode = 'Invalid zip code';
 
   // Return an object defining the validation state
   if (Object.entries(errors).length > 0) {
