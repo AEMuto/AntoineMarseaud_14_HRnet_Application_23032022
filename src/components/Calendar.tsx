@@ -57,7 +57,6 @@ const Calendar = ({ selectedDate, setSelectedDate, setCalendarVisible }: Calenda
   };
 
   const resetDate = () => {
-
     setSelectedMonth(initialDate.getMonth());
     setSelectedYear(initialDate.getFullYear());
   };
@@ -141,7 +140,6 @@ const Calendar = ({ selectedDate, setSelectedDate, setCalendarVisible }: Calenda
                   const date = new Date(day.join('-'));
                   const isCurrentMonth =
                     parseInt(day[1], 10) - 1 === selectedMonth;
-                  // const isCurrentDay = isSameDay(date, initialDate);
                   const dateISO = getDateISO(selectedDate);
                   const isSelectedDate = isSameDay(date, dateISO);
                   const key = day.join('-');

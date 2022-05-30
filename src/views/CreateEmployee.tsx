@@ -34,18 +34,6 @@ export type employeeFields =
   | 'zipCode'
   | 'department';
 
-export type employeeForm = {
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  startDate: string;
-  street: string;
-  city: string;
-  stateName: string;
-  zipCode: string;
-  department?: string;
-};
-
 export type errorsType = {
   [key in employeeFields]?: string;
 };
@@ -122,12 +110,12 @@ const CreateEmployee = () => {
   };
 
   return (
-    <>
+    <PageContainer>
       <Modal visible={modalVisible} setVisible={setModalVisible}>
         <p>Employee Created!</p>
       </Modal>
-      <h1 style={{ textAlign: 'center' }}>Create Employee</h1>
       <StyledForm onSubmit={handleSubmit}>
+      <Title>Create Employee</Title>
         <StyledLabel htmlFor="firstName">
           First Name
           <StyledInput
@@ -180,6 +168,9 @@ const CreateEmployee = () => {
             setSelectedOption={setDepartmentIndex}
             margin="8px 0px 0px 0px"
           />
+          <ErrorMessage>
+            {formErrors.department ? formErrors.department : ''}
+          </ErrorMessage>
         </StyledLabel>
         <StyledLabel htmlFor="startDate">
           Start Date
@@ -256,17 +247,43 @@ const CreateEmployee = () => {
         </StyledLabel>
         <SubmitButton type="submit">Save</SubmitButton>
       </StyledForm>
-    </>
+    </PageContainer>
   );
 };
 
 export default CreateEmployee;
 
-const StyledForm = styled.form`
+const PageContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  flex: 1;
+  background-image: url("/src/assets/background-01.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+`
+
+const Title = styled.h1`
+  grid-area: title;
+  margin: 1rem;
+  justify-self: start;
+`
+
+const StyledForm = styled.form`
+  display: grid;
+  grid-template-areas:
+    'title title'
+    'firstName lastName'
+    'dateOfBirth department'
+    'startDate street'
+    'city stateName'
+    'zipCode submit';
+  place-items: center;
+  place-content: center;
+  outline: ${colors.grey} solid 1px;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: auto;
+  background-color: ${colors.white};
+  box-shadow: 0 6px 6px 4px rgba(0, 0, 0, 0.2);
 `;
 
 const StyledLabel = styled.label`

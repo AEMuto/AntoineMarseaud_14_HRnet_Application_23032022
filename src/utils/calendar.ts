@@ -1,8 +1,6 @@
 import * as _ from 'lodash';
 import {DATE_PATTERN} from "./regexPatterns";
 
-
-
 export const CURRENT_DATE = new Date()
 
 export const THIS_YEAR: number = new Date().getFullYear();
@@ -43,7 +41,6 @@ export const MONTHS = [
 
 export const CALENDAR_WEEKS = 6;
 
-
 /**
  * If the input parameter doesn't match the 'mm/dd/yyyy' pattern this function
  * return the current date. Else it will parse the values for the day and month
@@ -80,15 +77,15 @@ export const dateInputParser = (input:string) => {
  * @param year
  */
 export const getMonthDays = (month = THIS_MONTH, year = THIS_YEAR) => {
-  const months30 = [4, 6, 9, 11];
-  const leapYear = year % 4 === 0;
-  if (month === 2) return leapYear ? 29 : 28;
-  else return months30.includes(month) ? 30 : 31;
+  const months30 = [4, 6, 9, 11]; // Months that have 30 days
+  const leapYear = year % 4 === 0; // Leap year is every 4
+  if (month === 2) return leapYear ? 29 : 28; // February Case
+  else return months30.includes(month) ? 30 : 31; // Others Months
 };
 
 /**
  * The first day of a given month and year will be returned
- * as a number between 1 and 7, where 1 is
+ * as a number between 1 and 7, where 1 is Sunday, 2 Monday, etc...
  * @param month
  * @param year
  */
@@ -98,6 +95,10 @@ export const getMonthFirstDay = (month = THIS_MONTH, year = THIS_YEAR) => {
   return day + 1;
 };
 
+/**
+ * Utility function to verify that the date object we pass it through is valid.
+ * @param date
+ */
 export const isDate = (date: Date) => {
   const isDate = Object.prototype.toString.call(date) === '[object Date]';
   const isValidDate = date && !Number.isNaN(date.valueOf());
@@ -105,6 +106,12 @@ export const isDate = (date: Date) => {
   return isDate && isValidDate;
 };
 
+/**
+ * Function that will return a boolean value depending on if the dates we
+ * pass it through have the same ear and month.
+ * @param date
+ * @param baseDate
+ */
 export const isSameMonthAndYear = (date: Date, baseDate = new Date()) => {
   if (!(isDate(date) && isDate(baseDate))) return false;
   const isSameMonth = date.getMonth() === baseDate.getMonth();
@@ -112,13 +119,23 @@ export const isSameMonthAndYear = (date: Date, baseDate = new Date()) => {
   return isSameMonth && isSameYear;
 };
 
+/**
+ * Function that works the same as 'isSameMonthAndYear' but we further it down,
+ * into verifying the day is the same.
+ * @param date
+ * @param baseDate
+ */
 export const isSameDay = (date: Date, baseDate = new Date()) => {
   if (!(isDate(date) && isDate(baseDate))) return false;
-
   const isSameDate = date.getDate() === baseDate.getDate();
   return isSameDate && isSameMonthAndYear(date, baseDate);
 };
 
+/**
+ * Utility function that remap a date we get from the input
+ * into a valid format yyyy-mm-dd
+ * @param dateString
+ */
 export const getDateISO = (dateString:string) => {
   const dateElements = dateString.split('/')
   const month = dateElements[0]

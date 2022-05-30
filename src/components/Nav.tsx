@@ -30,6 +30,7 @@ const StyledNav = styled.nav`
   min-height: 100vh;
   height: auto;
   width: 64px;
+  padding: 0.5rem;
   
   .logo {
     width: 44px;

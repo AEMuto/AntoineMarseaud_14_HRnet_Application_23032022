@@ -11,7 +11,7 @@ type Option = {
 interface DropdownProps extends DropdownStyles {
   options: Option[];
   selectedOption: number;
-  setSelectedOption: Dispatch<SetStateAction<any>>;
+  setSelectedOption: Dispatch<SetStateAction<number>>;
 }
 
 interface DropdownStyles {

@@ -35,6 +35,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 );
 
 const StyledMain = styled.main`
-  width: calc(100vw - 132px);
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - 80px); // Subtract the Nav width
   padding: 1rem;
 `;
