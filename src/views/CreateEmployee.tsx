@@ -259,6 +259,7 @@ const PageContainer = styled.div`
   background-image: url("/src/assets/background-01.svg");
   background-size: contain;
   background-repeat: no-repeat;
+  background-position: center;
 `
 
 const Title = styled.h1`
