@@ -275,7 +275,8 @@ const StyledForm = styled.form`
     'dateOfBirth department'
     'startDate street'
     'city stateName'
-    'zipCode submit';
+    'zipCode zipCode'
+    'submitButton submitButton';
   place-items: center;
   place-content: center;
   outline: ${colors.grey} solid 1px;
@@ -314,7 +315,7 @@ const ErrorMessage = styled.p`
 `;
 
 const SubmitButton = styled.button`
-  margin-top: 1rem;
+  grid-area: submitButton;
   font-size: 1.2rem;
   font-weight: 550;
   padding: 0.6rem;
@@ -322,6 +323,7 @@ const SubmitButton = styled.button`
   color: ${colors.dark};
   background-color: transparent;
   cursor: pointer;
+  margin: 1.5rem;
   &:hover {
     color: ${colors.white};
     background-color: ${colors.primary};

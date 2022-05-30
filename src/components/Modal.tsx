@@ -47,9 +47,13 @@ const ModalWrapper = styled.div`
 `;
 
 const CloseIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   right: 0.5rem;
   color: ${colors.black};
+  &:hover {
+    color: ${colors.primary};
+  }
 `;
