@@ -1,9 +1,29 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { employees } from '../mocks/employees_50';
 import { Employee } from '../types/employee';
+import { getEmployees, setEmployees } from './appThunks';
 
-const initialState = {
-  employees,
+export type ErrorMessage = {
+  message: string;
+  status: boolean;
+}
+
+export type AppState = {
+  employees: any[],
+  isLoading: boolean,
+  dbLoaded: boolean,
+  dbUpdated: boolean,
+  dbError: ErrorMessage
+}
+
+const initialState:AppState = {
+  employees: [],
+  isLoading: false,
+  dbLoaded: false,
+  dbUpdated: false,
+  dbError: {
+    message: '',
+    status: false
+  },
 };
 
 export const appSlice = createSlice({
@@ -12,7 +32,40 @@ export const appSlice = createSlice({
   reducers: {
     addEmployee: (state, action: PayloadAction<Employee>) => {
       state.employees = [...state.employees, action.payload];
+      state.dbError = initialState.dbError
+      state.dbUpdated = true;
     },
+  },
+  extraReducers: (builder) => {
+    // Getting the employees data from the indexedDB
+    builder.addCase(getEmployees.fulfilled, (state, action) => {
+      if (action.payload) state.employees = action.payload;
+      state.dbLoaded = true;
+      state.dbUpdated = false;
+      state.isLoading = false;
+    });
+    builder.addCase(getEmployees.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getEmployees.rejected, (state, action) => {
+      if (action.payload) state.dbError = action.payload;
+      state.isLoading = false;
+      state.dbLoaded = false;
+    });
+
+    // Setting the employees data in the indexedDB
+    builder.addCase(setEmployees.fulfilled, (state) => {
+      state.dbUpdated = true;
+      state.dbError = initialState.dbError
+      state.isLoading = false;
+    });
+    builder.addCase(setEmployees.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(setEmployees.rejected, (state, action) => {
+      if (action.payload) state.dbError = action.payload;
+      state.isLoading = false;
+    });
   },
 });
 

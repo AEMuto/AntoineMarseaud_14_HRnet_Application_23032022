@@ -1,15 +1,17 @@
 import styled from 'styled-components';
 import { colors } from '../theme/colors';
-import React, { FormEvent, useState } from 'react';
+import React, {FormEvent, useEffect, useState} from 'react';
 import SelectMenu from '../components/SelectMenu';
 import DateTimePicker from '../components/DateTimePicker';
 import { nanoid } from '@reduxjs/toolkit';
 import { validateEmployee } from '../utils/validation';
 import Modal from '../components/Modal';
-import { useAppDispatch } from '../hooks';
+import {useAppDispatch, useAppSelector} from '../hooks';
 import { USA_STATES_DICT } from '../utils/usaStates';
 import { UsaStates } from '../types/usaStates';
 import { addEmployee } from '../store/appSlice';
+import {setEmployees} from "../store/appThunks";
+import backgroundImage from '../assets/background-01.svg'
 
 /* Constants */
 export const DEPARTMENTS = [
@@ -40,6 +42,8 @@ export type errorsType = {
 
 const CreateEmployee = () => {
   const dispatch = useAppDispatch();
+  const { employees, dbUpdated } =
+    useAppSelector((state) => state.app);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -108,6 +112,13 @@ const CreateEmployee = () => {
       setFormErrors({ ...tempFormErrors });
     }
   };
+
+  // Persist the changes made to the employees
+  useEffect(() => {
+    if (employees.length > 0 && dbUpdated) {
+      dispatch(setEmployees(employees))
+    }
+  }, [employees, dbUpdated])
 
   return (
     <PageContainer>
@@ -256,7 +267,7 @@ export default CreateEmployee;
 const PageContainer = styled.div`
   display: flex;
   flex: 1;
-  background-image: url("/src/assets/background-01.svg");
+  background-image: url(${backgroundImage});
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

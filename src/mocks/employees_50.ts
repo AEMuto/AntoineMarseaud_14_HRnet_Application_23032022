@@ -1,4 +1,4 @@
-export const employees = [
+export const employeesMock50 = [
   {
     id: "4e89e7f5-4954-4582-934b-6985b6dbf8ca",
     firstName: "Drake",
