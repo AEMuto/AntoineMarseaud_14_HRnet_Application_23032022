@@ -37,7 +37,7 @@ export const appSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Getting the employees data from the indexedDB
+    // Getting the employees' data from the indexedDB
     builder.addCase(getEmployees.fulfilled, (state, action) => {
       if (action.payload) state.employees = action.payload;
       state.dbLoaded = true;
@@ -53,7 +53,7 @@ export const appSlice = createSlice({
       state.dbLoaded = false;
     });
 
-    // Setting the employees data in the indexedDB
+    // Setting the employees' data in the indexedDB
     builder.addCase(setEmployees.fulfilled, (state) => {
       state.dbUpdated = true;
       state.dbError = initialState.dbError

@@ -1,6 +1,16 @@
 import * as _ from 'lodash';
 import {DATE_PATTERN} from "./regexPatterns";
 
+// Most of the code handling the math behind the functions came from this article
+// https://blog.logrocket.com/react-custom-datepicker-step-by-step/#setting-up-the-directory-components
+
+// When handling date we should remember to use the ISO notation yyyy-mm-dd
+// because it's the correct format for getting a date from the js Date constructor
+// const date = new Date(correctIsoDate)
+// Otherwise we'll get an invalid date object in Firefox. Chrome seems to have a date parser integrated
+// meaning we get a correct date when coding: const date = new Date('01-01-2022')
+
+/* CONSTANTS */
 export const CURRENT_DATE = new Date()
 
 export const THIS_YEAR: number = new Date().getFullYear();
@@ -12,7 +22,6 @@ export const CURRENT_DATE_STRING = [
   _.padStart(`${CURRENT_DATE.getDate()}`, 2, '0'),
   _.padStart(`${CURRENT_DATE.getFullYear()}`, 4, '0'),
 ].join('/');
-
 
 export const WEEK_DAYS = [
   { value: 1, label: 'Sun' },
@@ -40,6 +49,8 @@ export const MONTHS = [
 ];
 
 export const CALENDAR_WEEKS = 6;
+
+/* UTILS FUNCTIONS */
 
 /**
  * If the input parameter doesn't match the 'mm/dd/yyyy' pattern this function
@@ -144,18 +155,41 @@ export const getDateISO = (dateString:string) => {
   return new Date(`${year}-${month}-${day}`)
 };
 
+/**
+ * Utilitarian function that return the previous month
+ * and handle the case where the current mont is January
+ * @param month
+ * @param year
+ */
 export const getPreviousMonth = (month: number, year: number) => {
   const prevMonth = month > 1 ? month - 1 : 12;
   const prevYear = month > 1 ? year : year - 1;
   return { month: prevMonth, year: prevYear };
 };
 
+/**
+ * Utilitarian function that return the next month and
+ * handle the case where the current mont is December
+ * @param month
+ * @param year
+ */
 export const getNextMonth = (month: number, year: number) => {
   const nextMonth = month < 12 ? month + 1 : 1;
   const nextMonthYear = month < 12 ? year : year + 1;
   return { month: nextMonth, year: nextMonthYear };
 };
 
+/**
+ * Default calendar function. It returns an array of arrays.
+ * Its length is always equal to 6x7 = 42. 6 rows of 7 days (a week).
+ * Each subarray follow the shape [year, month, day].
+ * It is used in the Calendar component to display a grid of days once it has been mapped.
+ * First we calculate the number of days from the previous month that we should have.
+ * Then we get the number of days we have for the current month.
+ * Finally, we add the number of days for the next month.
+ * @param month
+ * @param year
+ */
 export default (month = THIS_MONTH, year = THIS_YEAR) => {
   const monthDays = getMonthDays(month, year);
   const monthFirstDay = getMonthFirstDay(month, year);
@@ -195,7 +229,6 @@ export default (month = THIS_MONTH, year = THIS_YEAR) => {
       _.padStart(`${day}`, 2, '0'),
     ];
   });
-
 
   return [...prevMonthDates, ...thisMonthDates, ...nextMonthDates];
 };

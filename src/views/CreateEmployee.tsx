@@ -45,6 +45,7 @@ const CreateEmployee = () => {
   const { employees, dbUpdated } =
     useAppSelector((state) => state.app);
 
+  // Internal State
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState(DEFAULT_DATE);
@@ -72,16 +73,17 @@ const CreateEmployee = () => {
       department: DEPARTMENTS[departmentIndex].label,
       id: nanoid(),
     };
+    // Validate the form values
     const { isValid, errors } = validateEmployee(data);
-    // Setting error state
+    // Setting form errors
     if (errors) setFormErrors(errors);
-    // Validation
+    // Handling valid form
     if (isValid) {
       // Changing the state name to an abbreviation
       data.state.length > 2
         ? (data.state = USA_STATES_DICT[data.state as UsaStates])
         : '';
-      // Reset the fields
+      // Reset the form fields
       setFirstName('');
       setLastName('');
       setDateOfBirth(DEFAULT_DATE);
@@ -115,6 +117,7 @@ const CreateEmployee = () => {
 
   // Persist the changes made to the employees
   useEffect(() => {
+    // Indexed DB has been updated and there is an employee entry in the redux store
     if (employees.length > 0 && dbUpdated) {
       dispatch(setEmployees(employees))
     }

@@ -8,6 +8,15 @@ import {
 } from './regexPatterns';
 import { Employee } from '../types/employee';
 
+/**
+ * Function that validate the form in the CreateEmployee view.
+ * It checks each entry of the data object we pass as an argument.
+ * It returns an object containing a 'isValid' key which is a boolean
+ * indicating whether the form is valid or not. In the case there is an
+ * error, it also returns an error message value where its key is the
+ * corresponding input where the error was found.
+ * @param data
+ */
 export const validateEmployee = (data: Employee) => {
   const {
     firstName,

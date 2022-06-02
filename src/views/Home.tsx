@@ -12,6 +12,7 @@ const Home = () => {
     useAppSelector((state) => state.app);
 
   useEffect(() => {
+    // In the case the indexed DB has been updated, load it in the redux store
     if (dbUpdated) dispatch(getEmployees({key:'employees'}))
   },[dbUpdated])
 
