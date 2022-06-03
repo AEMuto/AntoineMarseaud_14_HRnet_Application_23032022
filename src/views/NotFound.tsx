@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 
+/**
+ * View for displaying a 404 not found page.
+ * @constructor
+ */
 const NotFound = () => {
   return (
     <Container>

@@ -40,6 +40,15 @@ export type errorsType = {
   [key in employeeFields]?: string;
 };
 
+/**
+ * View displaying the page where a user can create a new employee
+ * through filling a form. Once the form inputs has been validated in
+ * the submit handler, our data object representing an employee is added
+ * as a new entry to the redux store employees state. Then through the hook
+ * useEffect, we persist this update in the indexed DB by dispatching
+ * the setEmployee action that will call an async thunk.
+ * @constructor
+ */
 const CreateEmployee = () => {
   const dispatch = useAppDispatch();
   const { employees, dbUpdated } =

@@ -12,11 +12,40 @@ type DateTimePickerProps = {
   dateValue: string;
   dateSetter: React.Dispatch<React.SetStateAction<string>>;
   error: boolean;
-  focusHandler: React.FocusEventHandler<HTMLInputElement>
-}
+  focusHandler: React.FocusEventHandler<HTMLInputElement>;
+};
 
-const DateTimePicker = ({id, defaultDate, dateSetter, dateValue, error, focusHandler}:DateTimePickerProps) => {
-  const dateInput = useRef<HTMLInputElement | null>(null);
+/**
+ * Our Date Picker component. It emulates the features presents on the
+ * original jquery plugin that we were using.
+ * It contains an input allowing the user
+ * to manually enter a date. When the focus on the input is lost,
+ * the input value is then passed to the util function dateInputParser
+ * which will correct the input if there is an error (meaning that the value is
+ * either of the wrong format - not following the mm/dd/yyyy pattern - or is
+ * an invalid date - 45/99/0001).
+ * A calendar icon is present. It allows the user to set a date by using an interactive
+ * calendar, when he clicks on it. See the <Calendar /> component for more explanations.
+ * @param id
+ * @param defaultDate
+ * @param dateSetter
+ * @param dateValue
+ * @param error
+ * @param focusHandler
+ * @constructor
+ */
+const DateTimePicker = ({
+  id,
+  defaultDate,
+  dateSetter,
+  dateValue,
+  error,
+  focusHandler,
+}: DateTimePickerProps) => {
+
+  // Reference for the <DateInput />. It is needed for knowing
+  // if it is focused or not.
+  const dateInputRef = useRef<HTMLInputElement | null>(null);
 
   const [calendarVisible, setCalendarVisible] = useState(false);
 
@@ -29,16 +58,18 @@ const DateTimePicker = ({id, defaultDate, dateSetter, dateValue, error, focusHan
 
   const handleCalendarIconClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!dateInput.current) return;
+    if (!dateInputRef.current) return;
     // Focus on the date input
-    dateInput.current?.focus();
-    // Toggle Calendar
+    dateInputRef.current?.focus();
+    // Toggle Calendar visibility
     setCalendarVisible(!calendarVisible);
   };
 
+  // We need to set the DateInput value to the current value when it is updated
+  // by using the interactive calendar.
   useEffect(() => {
-    if (!dateInput.current) return;
-    dateInput.current.value = dateValue;
+    if (!dateInputRef.current) return;
+    dateInputRef.current.value = dateValue;
   }, [dateValue]);
 
   return (
@@ -49,7 +80,7 @@ const DateTimePicker = ({id, defaultDate, dateSetter, dateValue, error, focusHan
           defaultValue={defaultDate}
           onBlur={handleBlur}
           onFocus={focusHandler}
-          ref={dateInput}
+          ref={dateInputRef}
           id={id}
         />
         <FontAwesomeIcon icon={faCalendar} onClick={handleCalendarIconClick} />

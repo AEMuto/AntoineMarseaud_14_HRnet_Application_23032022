@@ -10,6 +10,15 @@ type ModalProps = {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+/**
+ * An agnostic functional component that displays a modal when the
+ * "visible" prop is set to the boolean "true". The content of the modal
+ * is defined by the prop "children" which can be any React Node.
+ * @param children
+ * @param visible
+ * @param setVisible
+ * @constructor
+ */
 const Modal = ({ children, visible, setVisible }: ModalProps) => {
   return (
     <>

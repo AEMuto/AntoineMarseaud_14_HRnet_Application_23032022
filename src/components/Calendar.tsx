@@ -22,10 +22,26 @@ type CalendarProps = {
   setCalendarVisible: React.Dispatch<React.SetStateAction<boolean>>
 };
 
+/**
+ * Our calendar component. It displays an interactive calendar that
+ * allows the user to select a date when he clicks on one of the cell,
+ * which represents a day.
+ * In its core, it is a table where each row represent a week and each column
+ * represent one of the day existing in a week.
+ * There are controllers in the top (<CalendarHeader/>), that allows the user to easily
+ * changes the month, the year or reset the date to the current date.
+ * In the <CalendarBody> we map the array we get from the calendar util function,
+ * and attach to each DayCell the handleSelectDay handler.
+ * For understanding how we make this correct array of dates whatever the month or the year
+ * see the explanations in the calendar.ts util function.
+ * @param selectedDate
+ * @param setSelectedDate
+ * @param setCalendarVisible
+ * @constructor
+ */
 const Calendar = ({ selectedDate, setSelectedDate, setCalendarVisible }: CalendarProps) => {
   const initialDate =
     selectedDate === 'mm/dd/yyyy' ? new Date() : getDateISO(selectedDate);
-
 
   const [selectedMonth, setSelectedMonth] = useState(initialDate.getMonth());
   const [selectedYear, setSelectedYear] = useState(initialDate.getFullYear());
@@ -34,12 +50,11 @@ const Calendar = ({ selectedDate, setSelectedDate, setCalendarVisible }: Calenda
     _.chunk(calendar(selectedMonth + 1, selectedYear), 7),
   );
 
-
   useEffect(() => {
     setCalendarDisplay(_.chunk(calendar(selectedMonth + 1, selectedYear), 7));
   }, [selectedMonth, selectedYear]);
 
-
+  // Handler for the click on a Day cell
   const handleSelectDay = (e: React.MouseEvent<HTMLElement>) => {
     const dateElements = e.currentTarget.getAttribute('data-date')?.split('-');
     if (!dateElements) return;
@@ -48,7 +63,6 @@ const Calendar = ({ selectedDate, setSelectedDate, setCalendarVisible }: Calenda
     const month = dateElements[1];
     const day = dateElements[2];
 
-
     setSelectedMonth(parseInt(month, 10) - 1);
     setSelectedYear(parseInt(year, 10));
 
@@ -56,6 +70,7 @@ const Calendar = ({ selectedDate, setSelectedDate, setCalendarVisible }: Calenda
     setCalendarVisible(false);
   };
 
+  // <CalendarHeader/> handlers
   const resetDate = () => {
     setSelectedMonth(initialDate.getMonth());
     setSelectedYear(initialDate.getFullYear());

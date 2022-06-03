@@ -34,6 +34,18 @@ interface DropdownStyles {
   fontWeight?: number;
 }
 
+/**
+ * Our dropdown component that emulates the features of the old jquery one.
+ * It has 3 required props:
+ * - options, the different options which the dropdown should have
+ * - selectedOption, the index of the current selected option
+ * - setSelectedOption, the index setter
+ * It is a custom ul + li dropdown with aria attribute
+ * to emulate the behaviour of the classic select + option html tag.
+ * We make it that way to make the styling part easier.
+ * @param props
+ * @constructor
+ */
 const SelectMenu = (props: DropdownProps) => {
   const {
     options,
@@ -51,6 +63,7 @@ const SelectMenu = (props: DropdownProps) => {
   const [selectedIndex, setSelectedIndex] = useState(selectedOption);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
+  // Show the correct selected option
   useEffect(() => {
     setSelectedIndex(selectedOption)
   },[selectedOption])
@@ -65,6 +78,9 @@ const SelectMenu = (props: DropdownProps) => {
     setIsOptionsOpen(false);
   };
 
+  // When we navigate via keyboard
+  // A space, enter, or spacebar should select the correct option
+  // Then close the menu
   const handleKeyDown = (e: React.KeyboardEvent) => {
     switch (e.key) {
       case ' ':
@@ -78,6 +94,7 @@ const SelectMenu = (props: DropdownProps) => {
     }
   };
 
+  // Cycling through option via arrow keys
   const handleListKeyDown = (e: React.KeyboardEvent) => {
     switch (e.key) {
       case 'Escape':

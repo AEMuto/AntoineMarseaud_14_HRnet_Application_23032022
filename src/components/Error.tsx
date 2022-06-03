@@ -5,6 +5,13 @@ import { useAppDispatch } from '../hooks';
 import { setEmployees } from '../store/appThunks';
 import { employeesMock50 } from '../mocks/employees_50';
 
+/**
+ * The error component. It is not agnostic, meaning that for the moment
+ * it only handles the case when there is no "employees" key set in the
+ * indexed DB and the user is currently on the <Home /> view.
+ * @param error
+ * @constructor
+ */
 const Error = (error: {message:string}) => {
   const dispatch = useAppDispatch();
 

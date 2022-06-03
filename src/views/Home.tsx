@@ -6,6 +6,15 @@ import { useEffect } from 'react';
 import { getEmployees } from '../store/appThunks';
 import Error from "../components/Error";
 
+/**
+ * The home view displays the current employees present in
+ * the indexed DB. If there is none (see <Error/> component),
+ * a message invite the user to either create an employee or
+ * to load mock data. This is where we make use of our external
+ * component library by importing the <Table /> component.
+ * See https://github.com/AEMuto/AntoineMarseaud_14_HRnet_React_Library_23032022
+ * @constructor
+ */
 const Home = () => {
   const dispatch = useAppDispatch();
   const { employees, dbLoaded, isLoading, dbUpdated, dbError } =

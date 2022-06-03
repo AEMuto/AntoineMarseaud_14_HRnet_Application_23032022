@@ -5,6 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPeopleGroup, faPersonCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import {colors} from "../theme/colors";
 
+/**
+ * Our Navigation component. It displays a vertical bar on the left side of
+ * the window. There are two icons in it, that link to the two existing views
+ * Home (the current employee table) and CreateEmployee (the form to create an employee).
+ * @constructor
+ */
 const Nav = () => {
   let location = useLocation();
 
