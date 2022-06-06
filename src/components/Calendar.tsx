@@ -1,4 +1,5 @@
 import calendar, {
+  CURRENT_DATE_STRING,
   getDateISO,
   isSameDay,
   MONTHS,
@@ -40,8 +41,9 @@ type CalendarProps = {
  * @constructor
  */
 const Calendar = ({ selectedDate, setSelectedDate, setCalendarVisible }: CalendarProps) => {
+  const currentDate = new Date()
   const initialDate =
-    selectedDate === 'mm/dd/yyyy' ? new Date() : getDateISO(selectedDate);
+    selectedDate === 'mm/dd/yyyy' ? currentDate : getDateISO(selectedDate);
 
   const [selectedMonth, setSelectedMonth] = useState(initialDate.getMonth());
   const [selectedYear, setSelectedYear] = useState(initialDate.getFullYear());
@@ -71,12 +73,18 @@ const Calendar = ({ selectedDate, setSelectedDate, setCalendarVisible }: Calenda
   };
 
   // <CalendarHeader/> handlers
-  const resetDate = () => {
-    setSelectedMonth(initialDate.getMonth());
-    setSelectedYear(initialDate.getFullYear());
+  const resetDate = () => { // Triggered by clicking the Home Icon
+    const currentMonth = currentDate.getMonth()
+    const currentYear = currentDate.getFullYear()
+
+    setSelectedMonth(currentMonth);
+    setSelectedYear(currentYear);
+
+    setSelectedDate(CURRENT_DATE_STRING);
+
   };
 
-  const handleNextMonth = () => {
+  const handleNextMonth = () => { // Triggered by clicking the next arrow icon
     if (selectedMonth === 11) {
       setSelectedMonth(() => 0);
       setSelectedYear(selectedYear + 1);
@@ -85,7 +93,7 @@ const Calendar = ({ selectedDate, setSelectedDate, setCalendarVisible }: Calenda
     }
   };
 
-  const handlePrevMonth = () => {
+  const handlePrevMonth = () => { // Triggered by clicking the previous arrow icon
     if (selectedMonth === 0) {
       setSelectedMonth(() => 11);
       setSelectedYear(selectedYear - 1);
