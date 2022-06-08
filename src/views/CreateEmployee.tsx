@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 import { colors } from '../theme/colors';
-import React, {FormEvent, useEffect, useState} from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import SelectMenu from '../components/SelectMenu';
 import DateTimePicker from '../components/DateTimePicker';
 import { nanoid } from '@reduxjs/toolkit';
 import { validateEmployee } from '../utils/validation';
 import Modal from '../components/Modal';
-import {useAppDispatch, useAppSelector} from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { USA_STATES_DICT } from '../utils/usaStates';
 import { UsaStates } from '../types/usaStates';
 import { addEmployee } from '../store/appSlice';
-import {setEmployees} from "../store/appThunks";
-import backgroundImage from '../assets/background-01.svg'
+import { setEmployees } from '../store/appThunks';
+import backgroundImage from '../assets/background-01.svg';
 
 /* Constants */
 export const DEPARTMENTS = [
@@ -51,8 +51,9 @@ export type errorsType = {
  */
 const CreateEmployee = () => {
   const dispatch = useAppDispatch();
-  const { employees, employeesNeedUpdate } =
-    useAppSelector((state) => state.app);
+  const { employees, employeesNeedUpdate } = useAppSelector(
+    (state) => state.app,
+  );
 
   // Internal State
   const [firstName, setFirstName] = useState('');
@@ -128,9 +129,9 @@ const CreateEmployee = () => {
   useEffect(() => {
     // Indexed DB has been updated and there is an employee entry in the redux store
     if (employees.length > 0 && employeesNeedUpdate) {
-      dispatch(setEmployees(employees))
+      dispatch(setEmployees(employees));
     }
-  }, [employees, employeesNeedUpdate])
+  }, [employees, employeesNeedUpdate]);
 
   return (
     <PageContainer>
@@ -138,7 +139,7 @@ const CreateEmployee = () => {
         <p>Employee Created!</p>
       </Modal>
       <StyledForm onSubmit={handleSubmit}>
-      <Title>Create Employee</Title>
+        <Title>Create Employee</Title>
         <StyledLabel htmlFor="firstName">
           First Name
           <StyledInput
@@ -285,13 +286,13 @@ const PageContainer = styled.div`
     background-repeat: no-repeat;
     background-position: center;
   }
-`
+`;
 
 const Title = styled.h1`
   grid-area: title;
   margin: 1rem;
   justify-self: start;
-`
+`;
 
 const StyledForm = styled.form`
   display: grid;
@@ -308,18 +309,18 @@ const StyledForm = styled.form`
     'zipCode'
     'submitButton';
   place-items: center;
-  
+
   text-align: center;
   @media (min-width: 555px) {
     text-align: left;
     grid-template-areas:
-    'title title'
-    'firstName lastName'
-    'dateOfBirth department'
-    'startDate street'
-    'city stateName'
-    'zipCode zipCode'
-    'submitButton submitButton';
+      'title title'
+      'firstName lastName'
+      'dateOfBirth department'
+      'startDate street'
+      'city stateName'
+      'zipCode zipCode'
+      'submitButton submitButton';
     place-items: center;
     place-content: center;
     outline: ${colors.grey} solid 1px;

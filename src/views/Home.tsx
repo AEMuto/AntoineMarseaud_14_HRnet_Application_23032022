@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 import Loader from '../components/Loader';
 import { useEffect } from 'react';
 import { getEmployees } from '../store/appThunks';
-import Error from "../components/Error";
+import Error from '../components/Error';
 
 /**
  * The home view displays the current employees present in
@@ -22,14 +22,14 @@ const Home = () => {
 
   useEffect(() => {
     // In the case the indexed DB has been updated, load it from the redux store
-    if (employeesNeedUpdate) dispatch(getEmployees({key:'employees'}))
-  },[employeesNeedUpdate])
+    if (employeesNeedUpdate) dispatch(getEmployees({ key: 'employees' }));
+  }, [employeesNeedUpdate]);
 
   if (dbError.status) {
     return (
       <>
         <h1>Current Employees</h1>
-        <Error message={dbError.message}/>
+        <Error message={dbError.message} />
       </>
     );
   }
@@ -47,9 +47,7 @@ const Home = () => {
     );
   }
   // If no case is reached return an empty element
-  return <></>
+  return <></>;
 };
 
 export default Home;
-
-

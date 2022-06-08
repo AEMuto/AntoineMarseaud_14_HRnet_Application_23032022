@@ -22,4 +22,4 @@ make a bridge between React and LocalForage.
 
 `nvm run build` to build the project.
 
-`nvm run preview` to start the local server showing the built project.
+`nvm run preview` to start the local server showing the compiled project.
