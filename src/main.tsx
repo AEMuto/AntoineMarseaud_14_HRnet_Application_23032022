@@ -14,8 +14,10 @@ import {getEmployees} from "./store/appThunks";
 
 const App = () => {
   const dispatch = useAppDispatch()
-  // Check if there is employees in the indexedDB
-  // if there is none reflect this in the <Home/>
+  // Try to get the employees' data from the Indexed DB
+  // If there is none we'll get an error in our redux state
+  // Then this error will be displayed if the user access
+  // the employee list page (currently the home page)
   useEffect(() => {
     dispatch(getEmployees({key:'employees'}))
   }, [])

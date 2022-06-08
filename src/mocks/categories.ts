@@ -1,6 +1,4 @@
-import {category} from "@AEMuto/antoinemarseaud_14_hrnet_react_library_23032022/dist/cjs/types/components/Table/Table";
-
-export const categories: category[] = [
+export const categories = [
   {
     title: 'UUID',
     key: 'id',
