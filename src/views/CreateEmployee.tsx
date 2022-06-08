@@ -51,7 +51,7 @@ export type errorsType = {
  */
 const CreateEmployee = () => {
   const dispatch = useAppDispatch();
-  const { employees, dbUpdated } =
+  const { employees, employeesNeedUpdate } =
     useAppSelector((state) => state.app);
 
   // Internal State
@@ -127,10 +127,10 @@ const CreateEmployee = () => {
   // Persist the changes made to the employees
   useEffect(() => {
     // Indexed DB has been updated and there is an employee entry in the redux store
-    if (employees.length > 0 && dbUpdated) {
+    if (employees.length > 0 && employeesNeedUpdate) {
       dispatch(setEmployees(employees))
     }
-  }, [employees, dbUpdated])
+  }, [employees, employeesNeedUpdate])
 
   return (
     <PageContainer>
@@ -278,11 +278,13 @@ export default CreateEmployee;
 
 const PageContainer = styled.div`
   display: flex;
-  flex: 1;
-  background-image: url(${backgroundImage});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  justify-content: center;
+  @media (min-width: 555px) {
+    background-image: url(${backgroundImage});
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 `
 
 const Title = styled.h1`
@@ -294,6 +296,23 @@ const Title = styled.h1`
 const StyledForm = styled.form`
   display: grid;
   grid-template-areas:
+    'title'
+    'firstName'
+    'lastName'
+    'dateOfBirth'
+    'department'
+    'startDate'
+    'street'
+    'city'
+    'stateName'
+    'zipCode'
+    'submitButton';
+  place-items: center;
+  
+  text-align: center;
+  @media (min-width: 555px) {
+    text-align: left;
+    grid-template-areas:
     'title title'
     'firstName lastName'
     'dateOfBirth department'
@@ -301,14 +320,15 @@ const StyledForm = styled.form`
     'city stateName'
     'zipCode zipCode'
     'submitButton submitButton';
-  place-items: center;
-  place-content: center;
-  outline: ${colors.grey} solid 1px;
-  border-radius: 5px;
-  padding: 1rem;
-  margin: auto;
-  background-color: ${colors.white};
-  box-shadow: 0 6px 6px 4px rgba(0, 0, 0, 0.2);
+    place-items: center;
+    place-content: center;
+    outline: ${colors.grey} solid 1px;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: auto;
+    background-color: ${colors.white};
+    box-shadow: 0 6px 6px 4px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const StyledLabel = styled.label`

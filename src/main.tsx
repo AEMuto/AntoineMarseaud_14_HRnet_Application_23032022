@@ -46,6 +46,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
-  width: calc(100vw - 80px); // Subtract the Nav width
-  padding: 1rem;
+  margin: 1rem;
+  @media (min-width: 426px) {
+    // Subtract the Nav width
+    width: calc(100% - 80px);
+    margin-left: 80px;
+    max-width: 1280px;
+  }
 `;

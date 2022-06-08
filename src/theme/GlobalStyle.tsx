@@ -37,7 +37,11 @@ export const GlobalStyles = createGlobalStyle`
   #root {
     min-height: 100vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+	  overflow: hidden;
+    @media (min-width: 426px) {
+      flex-direction: row;
+    }
   }
 
   #root > main > div > div.datatable__tools-top > div.datatable__search {

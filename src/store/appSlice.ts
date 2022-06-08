@@ -11,7 +11,7 @@ export type AppState = {
   employees: any[],
   isLoading: boolean,
   dbLoaded: boolean,
-  dbUpdated: boolean,
+  employeesNeedUpdate: boolean,
   dbError: ErrorMessage
 }
 
@@ -19,7 +19,7 @@ const initialState:AppState = {
   employees: [],
   isLoading: false,
   dbLoaded: false,
-  dbUpdated: false,
+  employeesNeedUpdate: false,
   dbError: {
     message: '',
     status: false
@@ -33,7 +33,7 @@ export const appSlice = createSlice({
     addEmployee: (state, action: PayloadAction<Employee>) => {
       state.employees = [...state.employees, action.payload];
       state.dbError = initialState.dbError
-      state.dbUpdated = true;
+      state.employeesNeedUpdate = true;
     },
   },
   extraReducers: (builder) => {
@@ -41,7 +41,7 @@ export const appSlice = createSlice({
     builder.addCase(getEmployees.fulfilled, (state, action) => {
       if (action.payload) state.employees = action.payload;
       state.dbLoaded = true;
-      state.dbUpdated = false;
+      state.employeesNeedUpdate = false;
       state.isLoading = false;
     });
     builder.addCase(getEmployees.pending, (state) => {
@@ -55,7 +55,7 @@ export const appSlice = createSlice({
 
     // Setting the employees' data in the indexedDB
     builder.addCase(setEmployees.fulfilled, (state) => {
-      state.dbUpdated = true;
+      state.employeesNeedUpdate = true;
       state.dbError = initialState.dbError
       state.isLoading = false;
     });

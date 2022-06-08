@@ -1,4 +1,4 @@
-import { Table } from '@AEMuto/antoinemarseaud_14_hrnet_react_library_23032022';
+import { Table } from 'antoinemarseaud_14_hrnet_react_library';
 import { categories } from '../mocks/categories';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import Loader from '../components/Loader';
@@ -17,13 +17,13 @@ import Error from "../components/Error";
  */
 const Home = () => {
   const dispatch = useAppDispatch();
-  const { employees, dbLoaded, isLoading, dbUpdated, dbError } =
+  const { employees, dbLoaded, isLoading, employeesNeedUpdate, dbError } =
     useAppSelector((state) => state.app);
 
   useEffect(() => {
-    // In the case the indexed DB has been updated, load it in the redux store
-    if (dbUpdated) dispatch(getEmployees({key:'employees'}))
-  },[dbUpdated])
+    // In the case the indexed DB has been updated, load it from the redux store
+    if (employeesNeedUpdate) dispatch(getEmployees({key:'employees'}))
+  },[employeesNeedUpdate])
 
   if (dbError.status) {
     return (
