@@ -37,7 +37,7 @@ export type employeeFields =
   | 'department';
 
 export type errorsType = {
-  [key in employeeFields]?: string;
+  [key:string]: string;
 };
 
 /**
@@ -78,7 +78,7 @@ const CreateEmployee = () => {
       startDate,
       street,
       city,
-      state: stateName,
+      stateName,
       zipCode,
       department: DEPARTMENTS[departmentIndex].label,
       id: nanoid(),
@@ -90,8 +90,8 @@ const CreateEmployee = () => {
     // Handling valid form
     if (isValid) {
       // Changing the state name to an abbreviation
-      data.state.length > 2
-        ? (data.state = USA_STATES_DICT[data.state as UsaStates])
+      data.stateName.length > 2
+        ? (data.stateName = USA_STATES_DICT[data.stateName as UsaStates])
         : '';
       // Reset the form fields
       setFirstName('');
@@ -120,7 +120,7 @@ const CreateEmployee = () => {
       e.currentTarget.value = '';
       const tempFormErrors = formErrors;
       // Unset the error attached to the input
-      tempFormErrors[inputKey] = undefined;
+      tempFormErrors[inputKey] = "";
       setFormErrors({ ...tempFormErrors });
     }
   };

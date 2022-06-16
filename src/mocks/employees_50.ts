@@ -8,7 +8,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "10067 Candido Path",
     city: "Southfield",
-    state: "CT",
+    stateName: "CT",
     zipCode: "14954",
   },
   {
@@ -20,7 +20,7 @@ export const employeesMock50 = [
     department: "Human Resources",
     street: "09286 Ward Center",
     city: "Springfield",
-    state: "RI",
+    stateName: "RI",
     zipCode: "01861",
   },
   {
@@ -32,7 +32,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "5321 Unique Road",
     city: "Victorville",
-    state: "OK",
+    stateName: "OK",
     zipCode: "24564",
   },
   {
@@ -44,7 +44,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "26312 Stanton Place",
     city: "Cedar Hill",
-    state: "WA",
+    stateName: "WA",
     zipCode: "33664",
   },
   {
@@ -56,7 +56,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "5839 Faye Brooks",
     city: "St. Cloud",
-    state: "IA",
+    stateName: "IA",
     zipCode: "36741",
   },
   {
@@ -68,7 +68,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "58305 Fernando Lodge",
     city: "Tuckahoe",
-    state: "ND",
+    stateName: "ND",
     zipCode: "53645",
   },
   {
@@ -80,7 +80,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "10749 Gabrielle Court",
     city: "Haltom City",
-    state: "SD",
+    stateName: "SD",
     zipCode: "79403",
   },
   {
@@ -92,7 +92,7 @@ export const employeesMock50 = [
     department: "Human Resources",
     street: "232 Charity Estates",
     city: "Springfield",
-    state: "OK",
+    stateName: "OK",
     zipCode: "23897",
   },
   {
@@ -104,7 +104,7 @@ export const employeesMock50 = [
     department: "Marketing",
     street: "9500 Hagenes View",
     city: "Rock Hill",
-    state: "GA",
+    stateName: "GA",
     zipCode: "05477",
   },
   {
@@ -116,7 +116,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "596 Celine Inlet",
     city: "Texas City",
-    state: "NV",
+    stateName: "NV",
     zipCode: "82656",
   },
   {
@@ -128,7 +128,7 @@ export const employeesMock50 = [
     department: "Marketing",
     street: "46047 Macie Inlet",
     city: "Levittown",
-    state: "NM",
+    stateName: "NM",
     zipCode: "78306",
   },
   {
@@ -140,7 +140,7 @@ export const employeesMock50 = [
     department: "Human Resources",
     street: "4337 Alessandro Dale",
     city: "Maple Grove",
-    state: "GA",
+    stateName: "GA",
     zipCode: "18014",
   },
   {
@@ -152,7 +152,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "0882 Barney Radial",
     city: "Sierra Vista",
-    state: "NC",
+    stateName: "NC",
     zipCode: "17015",
   },
   {
@@ -164,7 +164,7 @@ export const employeesMock50 = [
     department: "Marketing",
     street: "646 Louvenia Street",
     city: "Henderson",
-    state: "AR",
+    stateName: "AR",
     zipCode: "43229",
   },
   {
@@ -176,7 +176,7 @@ export const employeesMock50 = [
     department: "Engineering",
     street: "0659 Wintheiser Well",
     city: "Irondequoit",
-    state: "IA",
+    stateName: "IA",
     zipCode: "91605",
   },
   {
@@ -188,7 +188,7 @@ export const employeesMock50 = [
     department: "Engineering",
     street: "57337 Shany Hills",
     city: "Tyler",
-    state: "KS",
+    stateName: "KS",
     zipCode: "22705",
   },
   {
@@ -200,7 +200,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "665 Glover Turnpike",
     city: "Lehigh Acres",
-    state: "OK",
+    stateName: "OK",
     zipCode: "34802",
   },
   {
@@ -212,7 +212,7 @@ export const employeesMock50 = [
     department: "Human Resources",
     street: "3020 D'Amore Junctions",
     city: "Pflugerville",
-    state: "NJ",
+    stateName: "NJ",
     zipCode: "77913",
   },
   {
@@ -224,7 +224,7 @@ export const employeesMock50 = [
     department: "Engineering",
     street: "5389 Chadd Hills",
     city: "Bartlett",
-    state: "SC",
+    stateName: "SC",
     zipCode: "21532",
   },
   {
@@ -236,7 +236,7 @@ export const employeesMock50 = [
     department: "Marketing",
     street: "374 Irving Lights",
     city: "Greenville",
-    state: "NH",
+    stateName: "NH",
     zipCode: "69648",
   },
   {
@@ -248,7 +248,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "365 Rachael Radial",
     city: "Mountain View",
-    state: "NE",
+    stateName: "NE",
     zipCode: "84389",
   },
   {
@@ -260,7 +260,7 @@ export const employeesMock50 = [
     department: "Marketing",
     street: "599 Haley Trail",
     city: "Columbia",
-    state: "MA",
+    stateName: "MA",
     zipCode: "82771",
   },
   {
@@ -272,7 +272,7 @@ export const employeesMock50 = [
     department: "Engineering",
     street: "7025 Ferry Points",
     city: "Lynchburg",
-    state: "WI",
+    stateName: "WI",
     zipCode: "67981",
   },
   {
@@ -284,7 +284,7 @@ export const employeesMock50 = [
     department: "Engineering",
     street: "632 Hiram Common",
     city: "Billings",
-    state: "KS",
+    stateName: "KS",
     zipCode: "08655",
   },
   {
@@ -296,7 +296,7 @@ export const employeesMock50 = [
     department: "Marketing",
     street: "0495 Wuckert Forge",
     city: "Utica",
-    state: "AK",
+    stateName: "AK",
     zipCode: "96440",
   },
   {
@@ -308,7 +308,7 @@ export const employeesMock50 = [
     department: "Human Resources",
     street: "39360 Nettie Squares",
     city: "O'Fallon",
-    state: "MT",
+    stateName: "MT",
     zipCode: "49044",
   },
   {
@@ -320,7 +320,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "3888 Durgan Plains",
     city: "White Plains",
-    state: "IL",
+    stateName: "IL",
     zipCode: "42212",
   },
   {
@@ -332,7 +332,7 @@ export const employeesMock50 = [
     department: "Engineering",
     street: "180 Yasmin View",
     city: "Warner Robins",
-    state: "ME",
+    stateName: "ME",
     zipCode: "54985",
   },
   {
@@ -344,7 +344,7 @@ export const employeesMock50 = [
     department: "Marketing",
     street: "457 Roob Station",
     city: "Akron",
-    state: "OH",
+    stateName: "OH",
     zipCode: "57775",
   },
   {
@@ -356,7 +356,7 @@ export const employeesMock50 = [
     department: "Human Resources",
     street: "87944 Anthony Shores",
     city: "Ellicott City",
-    state: "MN",
+    stateName: "MN",
     zipCode: "37847",
   },
   {
@@ -368,7 +368,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "9530 Theo Highway",
     city: "North Las Vegas",
-    state: "NC",
+    stateName: "NC",
     zipCode: "28372",
   },
   {
@@ -380,7 +380,7 @@ export const employeesMock50 = [
     department: "Marketing",
     street: "15305 Ava Estates",
     city: "Norfolk",
-    state: "NC",
+    stateName: "NC",
     zipCode: "97169",
   },
   {
@@ -392,7 +392,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "557 Vena Viaduct",
     city: "Champaign",
-    state: "ND",
+    stateName: "ND",
     zipCode: "20548",
   },
   {
@@ -404,7 +404,7 @@ export const employeesMock50 = [
     department: "Engineering",
     street: "4635 Nitzsche Dam",
     city: "Oro Valley",
-    state: "OR",
+    stateName: "OR",
     zipCode: "72328",
   },
   {
@@ -416,7 +416,7 @@ export const employeesMock50 = [
     department: "Human Resources",
     street: "25369 Keebler Isle",
     city: "Fort Myers",
-    state: "NJ",
+    stateName: "NJ",
     zipCode: "88154",
   },
   {
@@ -428,7 +428,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "98014 Kaycee Burgs",
     city: "Wichita",
-    state: "ME",
+    stateName: "ME",
     zipCode: "74282",
   },
   {
@@ -440,7 +440,7 @@ export const employeesMock50 = [
     department: "Human Resources",
     street: "59474 Crona Lakes",
     city: "Alafaya",
-    state: "KY",
+    stateName: "KY",
     zipCode: "37582",
   },
   {
@@ -452,7 +452,7 @@ export const employeesMock50 = [
     department: "Marketing",
     street: "88880 Jenkins Drive",
     city: "Clarksville",
-    state: "NM",
+    stateName: "NM",
     zipCode: "71308",
   },
   {
@@ -464,7 +464,7 @@ export const employeesMock50 = [
     department: "Engineering",
     street: "38279 Ariane Ridges",
     city: "Bountiful",
-    state: "PA",
+    stateName: "PA",
     zipCode: "72533",
   },
   {
@@ -476,7 +476,7 @@ export const employeesMock50 = [
     department: "Marketing",
     street: "42356 Chaim Stravenue",
     city: "Rosemead",
-    state: "VT",
+    stateName: "VT",
     zipCode: "82821",
   },
   {
@@ -488,7 +488,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "80523 Graham Street",
     city: "Sunrise",
-    state: "NC",
+    stateName: "NC",
     zipCode: "36323",
   },
   {
@@ -500,7 +500,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "9351 Jameson Streets",
     city: "Burke",
-    state: "MA",
+    stateName: "MA",
     zipCode: "58640",
   },
   {
@@ -512,7 +512,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "67223 Adalberto Estates",
     city: "Manhattan",
-    state: "WI",
+    stateName: "WI",
     zipCode: "07383",
   },
   {
@@ -524,7 +524,7 @@ export const employeesMock50 = [
     department: "Engineering",
     street: "9306 Hammes Fork",
     city: "Diamond Bar",
-    state: "WI",
+    stateName: "WI",
     zipCode: "84179",
   },
   {
@@ -536,7 +536,7 @@ export const employeesMock50 = [
     department: "Marketing",
     street: "4573 Reilly Underpass",
     city: "Chesterfield",
-    state: "LA",
+    stateName: "LA",
     zipCode: "43190",
   },
   {
@@ -548,7 +548,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "392 Mitchell Landing",
     city: "Santa Ana",
-    state: "NH",
+    stateName: "NH",
     zipCode: "97778",
   },
   {
@@ -560,7 +560,7 @@ export const employeesMock50 = [
     department: "Marketing",
     street: "806 Purdy Ridges",
     city: "Fontana",
-    state: "WA",
+    stateName: "WA",
     zipCode: "78166",
   },
   {
@@ -572,7 +572,7 @@ export const employeesMock50 = [
     department: "Engineering",
     street: "738 Green Parkways",
     city: "Apopka",
-    state: "FL",
+    stateName: "FL",
     zipCode: "19493",
   },
   {
@@ -584,7 +584,7 @@ export const employeesMock50 = [
     department: "Marketing",
     street: "52880 Greyson Grove",
     city: "Cambridge",
-    state: "IL",
+    stateName: "IL",
     zipCode: "23358",
   },
   {
@@ -596,7 +596,7 @@ export const employeesMock50 = [
     department: "Sales",
     street: "5526 Leonora Row",
     city: "Honolulu",
-    state: "CA",
+    stateName: "CA",
     zipCode: "11555",
   },
 ];

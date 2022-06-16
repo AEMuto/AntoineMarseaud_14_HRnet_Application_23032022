@@ -41,7 +41,7 @@ export const categories = [
   },
   {
     title: 'State',
-    key: 'state',
+    key: 'stateName',
     position: 7,
   },
   {

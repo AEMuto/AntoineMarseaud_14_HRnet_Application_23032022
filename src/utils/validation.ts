@@ -6,7 +6,8 @@ import {
   NAME_PATTERN,
   ZIPCODE_PATTERN,
 } from './regexPatterns';
-import { Employee } from '../types/employee';
+import getYearDuration from './getYearDuration';
+import { getDateISO } from './calendar';
 
 /**
  * Function that validate the form in the CreateEmployee view.
@@ -17,7 +18,7 @@ import { Employee } from '../types/employee';
  * corresponding input where the error was found.
  * @param data
  */
-export const validateEmployee = (data: Employee) => {
+export const validateEmployee = (data: { [key: string]: string }) => {
   const {
     firstName,
     lastName,
@@ -25,22 +26,16 @@ export const validateEmployee = (data: Employee) => {
     startDate,
     street,
     city,
-    state,
+    stateName,
     zipCode,
   } = data;
 
   const errors: errorsType = {};
-  // Check if the field is empty
-  if (!firstName) errors.firstName = 'Field should not be empty';
-  if (!lastName) errors.lastName = 'Field should not be empty';
-  if (!dateOfBirth || dateOfBirth === DEFAULT_DATE)
-    errors.dateOfBirth = 'Field should not be empty';
-  if (!startDate || startDate === DEFAULT_DATE)
-    errors.startDate = 'Field should not be empty';
-  if (!street) errors.street = 'Field should not be empty';
-  if (!city) errors.city = 'Field should not be empty';
-  if (!state) errors.stateName = 'Field should not be empty';
-  if (!zipCode) errors.zipCode = 'Field should not be empty';
+  // Check if the fields are empty
+  for (let key in data) {
+    if (!data[key] || data[key] === DEFAULT_DATE)
+      errors[key] = 'Field should not be empty';
+  }
 
   // Check if the field input is valid
   if (!firstName?.match(NAME_PATTERN) && !errors.firstName)
@@ -55,10 +50,25 @@ export const validateEmployee = (data: Employee) => {
     errors.street = 'Special characters are not accepted';
   if (!city?.match(NAME_PATTERN) && !errors.city)
     errors.city = 'City should contains only alphabetic letters';
-  if (!USA_STATES.includes(state) && !errors.stateName)
+  if (!USA_STATES.includes(stateName) && !errors.stateName)
     errors.stateName = "Must be a valid USA's state";
   if (!zipCode.match(ZIPCODE_PATTERN) && !errors.zipCode)
     errors.zipCode = 'Invalid zip code';
+
+  // Verify the date inputs
+  if (!errors.dateOfBirth) {
+    const age = getYearDuration(getDateISO(dateOfBirth));
+    if (age < 18) errors.dateOfBirth = 'Not old enough to be an employee';
+    if (age > 65) errors.dateOfBirth = 'This person should be in retirement';
+  }
+
+  if (!errors.startDate) {
+    const duration = getYearDuration(getDateISO(startDate));
+    if (duration > 20)
+      errors.startDate = 'The company did not exist at this time';
+    if (duration < 0)
+      errors.startDate = 'The company cannot recruit into the future';
+  }
 
   // Return an object defining the validation state
   if (Object.entries(errors).length > 0) {

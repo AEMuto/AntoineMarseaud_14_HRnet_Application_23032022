@@ -6,7 +6,7 @@ export type Employee = {
   startDate: string;
   street: string;
   city: string;
-  state: string;
+  stateName: string;
   zipCode: string;
   department: string;
 };
