@@ -4,7 +4,7 @@ import { colors } from '../theme/colors';
 
 const RepoLink = () => {
   return (
-    <StyledLink className="repoLink" href="https://github.com/AEMuto/AntoineMarseaud_13_16022022" target="_blank" rel="noopener noreferrer" title="View on GitHub">
+    <StyledLink className="repoLink" href="https://github.com/AEMuto/AntoineMarseaud_14_HRnet_Application_23032022" target="_blank" rel="noopener noreferrer" title="View on GitHub">
       <GithubLogo fill={colors.primary}/>
     </StyledLink>
   );
