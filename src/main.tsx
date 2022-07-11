@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import {useAppDispatch} from "./hooks";
 import {getEmployees} from "./store/appThunks";
+import RepoLink from "./components/RepoLink";
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -41,6 +42,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
+      <RepoLink />
     </Provider>
   </React.StrictMode>,
 );
